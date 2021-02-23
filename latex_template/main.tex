@@ -1,0 +1,63 @@
+% Checklist before starting:
+% - Adapt title page
+% - Adapt subject (top left of pages)
+% - Adapt title (top right of pages)
+
+\documentclass{report}
+
+\usepackage{silence}
+%Disable all warnings issued by latex starting with "You have..."
+\WarningFilter{latex}{You have requested package}
+
+% Importing settings from our file "setup.sty"
+\usepackage{setup}
+
+% Beginning of document
+\begin{document}
+
+% Inserting title page
+\import{./}{title}
+
+% Defining front matter settings
+\frontmatter
+
+% Inserting table of contents
+\tableofcontents
+
+% Inserting list of figures & list of tables
+\listoffigures
+% \listoftables
+
+% list of code snippets (listings)
+\lstlistoflistings
+
+% Defining main matter settings
+\mainmatter
+% Changing page style from here
+\fancyhf{}
+\fancyhead[L]{Linear Algebra and Learning from Data}
+\fancyhead[R]{Project 2}
+\fancyfoot[R]{\bfseries \thepage \, of \ \!\pageref{LastPage}}
+\fancyfoot[L]{Joris LIMONIER}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\setlength{\headheight}{15pt}
+
+
+% Adding sections from external file
+\import{./Sections/}{Introduction}
+\import{./Sections/}{part1}
+\import{./Sections/}{part2}
+\import{./Sections/}{Conclusion}
+
+% Printing bibliography (uncomment only if citations are used)
+% You get an error aslong as you haven't cited anything (e.g. by adding \nocite{wikipedia_2021})
+\newpage
+\printbibliography[heading = bibintoc, title = Bibliography]    % 'bibintoc' inserts our bibliography into the table of contents
+
+% Inserting appendix with separate settings
+% \addappendix
+% \import{./Appendices/}{example_appendix}
+
+% End of document
+\end{document}

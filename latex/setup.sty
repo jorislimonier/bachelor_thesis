@@ -1,0 +1,40 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{setup}[latex for my bachelor thesis]
+
+%\newcommand{\hi}{Hello, this is my own package}
+%\let\myDate\date
+%\newcommand\GoodBye[1][\bfseries]{{#1Good Bye}}
+
+% FRONT MATTER
+
+\RequirePackage{graphicx}
+\RequirePackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+
+
+
+% GENERAL
+
+\RequirePackage{import}
+\RequirePackage[british]{babel}
+	\RequirePackage{hyperref}   % Hyper-references, possible to change color
+	\hypersetup{    % Color of hyper-references
+		linktoc = all,
+		colorlinks,
+		citecolor = black,
+		filecolor = black,
+		linkcolor = black,
+		urlcolor = black
+	}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}   % Ruler
+\RequirePackage{tabularx}
+
+% MATHS
+
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amsthm}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\endinput
