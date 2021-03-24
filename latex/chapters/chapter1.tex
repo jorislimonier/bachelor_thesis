@@ -1,0 +1,15 @@
+\chapter{The first chapter}
+
+
+
+
+\begin{lemma}[Basic Inequality]
+    $$\frac{\left\|X\left(\hat{\beta}-\beta^{0}\right)\right\|_{2}^{2}}{n} + \lambda\|\hat{\beta}\|_{1} \leq 2 \varepsilon^{T} \frac{X\left(\hat{\beta}-\beta^{0}\right)}{n}+\lambda\left\|\beta^{0}\right\|_{1}$$
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+                 & \frac{\left\|Y  - X \hat{\beta} \right\|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\left\| Y  - X \beta^0 \right\|_2^2}{n}+\lambda\left\|\beta^{0}\right\|_{1}                                                   \\
+        \implies & \frac{\left\| (X \beta^0  + \varepsilon) - X \hat{\beta} \right\|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\left\| (X \beta^0  + \varepsilon)  - X \beta^0 \right\|_2^2}{n}+\lambda\left\|\beta^{0}\right\|_{1} \\
+        \implies & \frac{\left\| X (\beta^0  - \hat{\beta}) \right\|_2^2 + \left\| \varepsilon \right\|_{2}^{2} + \left\langle X (\beta^0  - \hat{\beta}), \varepsilon \right\rangle}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\left\| (X \beta^0  + \varepsilon)  - X \beta^0 \right\|_2^2}{n}+\lambda\left\|\beta^{0}\right\|_{1}   \\
+    \end{align*}
+\end{proof}
