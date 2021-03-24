@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.23)  24 MAR 2021 19:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.23)  24 MAR 2021 21:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -279,9 +279,11 @@ Package: amsthm 2017/10/31 v2.20.4
 \thm@postskip=\skip56
 \thm@headsep=\skip57
 \dth@everypar=\toks28
-)) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+)
+\c@theorem=\count271
+) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count271
+\l__kernel_color_stack_int=\count272
 \l__pdf_internal_box=\box49
 ) (/home/joris/Documents/uni/bachelor_thesis/latex/main.aux)
 \openout1 = `main.aux'.
@@ -304,16 +306,16 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count272
+\scratchcounter=\count273
 \scratchdimen=\dimen166
 \scratchbox=\box50
-\nofMPsegments=\count273
-\nofMParguments=\count274
+\nofMPsegments=\count274
+\nofMParguments=\count275
 \everyMPshowfont=\toks29
-\MPscratchCnt=\count275
+\MPscratchCnt=\count276
 \MPscratchDim=\dimen167
-\MPnumerator=\count276
-\makeMPintoPDFobject=\count277
+\MPnumerator=\count277
+\makeMPintoPDFobject=\count278
 \everyMPtoPDFconversion=\toks30
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -371,7 +373,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count278
+\c@section@level=\count279
 )
 LaTeX Info: Redefining \ref on input line 7.
 LaTeX Info: Redefining \pageref on input line 7.
@@ -390,6 +392,18 @@ Package pdftex.def Info: images/logo.png  used on input line 4.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} </home/joris/Documents/uni/bachelor_thesis/latex/images/logo.png>]) (/home/joris/Documents/uni/bachelor_thesis/latex/chapters/chapter1.tex
 Chapter 1.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Overfull \hbox (27.06078pt too wide) detected at line 14
+[]
+ []
+
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 16.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
@@ -408,18 +422,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 16.
  ) 
 Here is how much of TeX's memory you used:
- 7142 strings out of 483183
- 107160 string characters out of 5966292
- 382081 words of memory out of 5000000
- 22016 multiletter control sequences out of 15000+600000
- 535091 words of font info for 33 fonts, out of 8000000 for 9000
+ 7201 strings out of 483183
+ 107928 string characters out of 5966292
+ 386216 words of memory out of 5000000
+ 22055 multiletter control sequences out of 15000+600000
+ 540092 words of font info for 52 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 42i,5n,33p,316b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on /home/joris/Documents/uni/bachelor_thesis/latex/main.pdf (2 pages, 88810 bytes).
+ 42i,11n,33p,422b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on /home/joris/Documents/uni/bachelor_thesis/latex/main.pdf (2 pages, 132191 bytes).
 PDF statistics:
- 40 PDF objects out of 1000 (max. 8388607)
- 29 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
+ 61 PDF objects out of 1000 (max. 8388607)
+ 45 compressed objects within 1 object stream
+ 4 named destinations out of 1000 (max. 500000)
  14 words of extra memory for PDF output out of 10000 (max. 10000000)
 
