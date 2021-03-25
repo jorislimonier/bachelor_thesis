@@ -1,16 +1,39 @@
-\documentclass[12pt]{report}
+\documentclass[12pt]{book}
+\usepackage[utf8]{inputenc}
 
 
 % Importing settings from our file "setup.sty"
 \usepackage{setup}
 
+% \pagenumbering{roman}
 \begin{document}
-	
+
+\frontmatter
+
+\newgeometry{width=150mm,top=25mm,bottom=25mm}
+
+
 % Inserting title page
 \import{./}{title}
 
+\tableofcontents
 
+\restoregeometry
+
+\mainmatter
+
+
+% \pagenumbering{arabic}
 \import{./}{chapters/chapter1}
 	
+
+To be added
+\begin{itemize}
+    \item how to get $\hat b$ on page 101.
+    \item where the $\chi^2$ distribution comes from in page 101
+\end{itemize}
 	
+
+\backmatter
+
 \end{document}

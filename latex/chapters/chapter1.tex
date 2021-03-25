@@ -1,15 +1,49 @@
-\chapter{The first chapter}
+\chapter{Introduction}
+\section{The first section}
+\subsection{The first subsection}
 
+\begin{equation}
+    \label{def: linear model (matrix)}
+    \Y = \X \beta + \eps
+\end{equation}
 
-
+We define $\hat \beta$ as follows
+\begin{equation}
+    \label{not: beta hat}
+    \hat{\beta}:=\arg \min _{\beta}\left\{\frac{\|\Y-\X \beta\|_{2}^{2}}{n}+\lambda\|\beta\|_{1}\right\}
+\end{equation}
 
 \begin{lemma}[Basic Inequality]
-    $$\frac{\left\|X\left(\hat{\beta}-\beta^{0}\right)\right\|_{2}^{2}}{n} + \lambda\|\hat{\beta}\|_{1} \leq 2 \varepsilon^{T} \frac{X\left(\hat{\beta}-\beta^{0}\right)}{n}+\lambda\left\|\beta^{0}\right\|_{1}$$
+    $$\frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\beta}\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\hat{\beta}-\beta^{0})}{n}+\lambda\|\beta^{0}\|_{1}$$
 \end{lemma}
 \begin{proof}
+    By definition of $\hat \beta$, we have that
+    $$
+        \forall \beta \quad \frac{\| \Y-\X \hat \beta \|_{2}^{2}}{n} + \lambda \| \hat \beta \|_{1} \leq \frac{\|\Y-\X \beta \|_{2}^{2}}{n}+\lambda \| \beta \|_{1}
+    $$
+    In particular for $\beta = \beta^0$ we have
+    $$
+        \frac{\| \Y-\X \hat \beta \|_{2}^{2}}{n}+\lambda\| \hat \beta \|_{1} \leq \frac{ \| \Y-\X \beta^0\|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1}
+    $$
+    We now replace $\Y$ using equation \eqref{def: linear model (matrix)}.
     \begin{align*}
-                 & \frac{\left\|Y  - X \hat{\beta} \right\|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\left\| Y  - X \beta^0 \right\|_2^2}{n}+\lambda\left\|\beta^{0}\right\|_{1}                                                   \\
-        \implies & \frac{\left\| (X \beta^0  + \varepsilon) - X \hat{\beta} \right\|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\left\| (X \beta^0  + \varepsilon)  - X \beta^0 \right\|_2^2}{n}+\lambda\left\|\beta^{0}\right\|_{1} \\
-        \implies & \frac{\left\| X (\beta^0  - \hat{\beta}) \right\|_2^2 + \left\| \varepsilon \right\|_{2}^{2} + \left\langle X (\beta^0  - \hat{\beta}), \varepsilon \right\rangle}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\left\| (X \beta^0  + \varepsilon)  - X \beta^0 \right\|_2^2}{n}+\lambda\left\|\beta^{0}\right\|_{1}   \\
+                 & \frac{\| (\X \beta + \eps) - \X \hat \beta \|_{2}^{2}}{n}+\lambda\| \hat \beta \|_{1} \leq \frac{ \| (\X \beta + \eps)-\X \beta^0\|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
+        \implies & \frac{\| \X ( \beta - \hat \beta) + \eps \|_{2}^{2}}{n}+\lambda\| \hat \beta \|_{1} \leq \frac{ \| \X ( \beta - \beta^0) + \eps \|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1}  \\
+        \begin{split}
+            \implies & \frac{\langle \X ( \beta - \hat \beta) + \eps, \X ( \beta - \hat \beta) + \eps \rangle}{n}+\lambda \| \hat \beta \|_{1} \\
+            &\leq \frac{ \langle \X ( \beta - \beta^0) + \eps, \X ( \beta - \beta^0) + \eps \rangle_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
+        \end{split}\\
+        \begin{split}
+            \implies & \frac{\langle \X ( \beta - \hat \beta) + \eps, \X ( \beta - \hat \beta) + \eps \rangle}{n} + \lambda \| \hat \beta \|_{1} \\
+            &\leq \frac{ \langle \X ( \beta - \beta^0) + \eps, \X ( \beta - \beta^0) + \eps \rangle_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
+        \end{split} \\
+    \end{align*}
+
+
+    \begin{align*}
+                 & \frac{\|\Y  - \X \hat{\beta} \|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\| \Y  - \X \beta^0 \|_2^2}{n}+\lambda\|\beta^{0}\|_{1}                                                   \\
+        \implies & \frac{\| ( \X \beta^0  + \varepsilon) - \X \hat{\beta} \|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\| (X \beta^0  + \varepsilon)  - \X \beta^0 \|_2^2}{n}+\lambda\|\beta^{0}\|_{1} \\
+        \implies & \frac{\| \X (\beta^0  - \hat{\beta}) \|_2^2 + \| \varepsilon \|_{2}^{2} + \left\langle \X (\beta^0  - \hat{\beta}), \varepsilon \right\rangle}{n} + \lambda \| \hat{\beta}\|_{1}                \\
+                 & \leq \frac{\| (\X \beta^0  + \varepsilon)  - \X \beta^0 \|_2^2}{n}+\lambda\|\beta^{0}\|_{1}
     \end{align*}
 \end{proof}
