@@ -8,8 +8,7 @@
 % FRONT MATTER
 
 \RequirePackage{graphicx}
-\RequirePackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
-
+\RequirePackage[a4paper]{geometry}
 
 
 % GENERAL
@@ -33,8 +32,16 @@
 \RequirePackage{amsmath}
 \RequirePackage{amsfonts}
 \RequirePackage{amsthm}
+	\newtheorem{theorem}{Theorem}[chapter]
+	\newtheorem{lemma}[theorem]{Lemma}
+	\newtheorem*{remark}{Remark}
+
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\Y}{\mathbf{Y}}
+\newcommand{\eps}{\boldsymbol{\varepsilon}}
+
 \endinput
