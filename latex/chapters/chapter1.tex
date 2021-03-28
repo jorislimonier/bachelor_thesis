@@ -27,23 +27,18 @@ We define $\hat \beta$ as follows
     $$
     We now replace $\Y$ using equation \eqref{def: linear model (matrix)}.
     \begin{align*}
-                 & \frac{\| (\X \beta + \eps) - \X \hat \beta \|_{2}^{2}}{n}+\lambda\| \hat \beta \|_{1} \leq \frac{ \| (\X \beta + \eps)-\X \beta^0\|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
-        \implies & \frac{\| \X ( \beta - \hat \beta) + \eps \|_{2}^{2}}{n}+\lambda\| \hat \beta \|_{1} \leq \frac{ \| \X ( \beta - \beta^0) + \eps \|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1}  \\
-        \begin{split}
-            \implies & \frac{\langle \X ( \beta - \hat \beta) + \eps, \X ( \beta - \hat \beta) + \eps \rangle}{n}+\lambda \| \hat \beta \|_{1} \\
-            &\leq \frac{ \langle \X ( \beta - \beta^0) + \eps, \X ( \beta - \beta^0) + \eps \rangle_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
-        \end{split}\\
-        \begin{split}
-            \implies & \frac{\langle \X ( \beta - \hat \beta) + \eps, \X ( \beta - \hat \beta) + \eps \rangle}{n} + \lambda \| \hat \beta \|_{1} \\
-            &\leq \frac{ \langle \X ( \beta - \beta^0) + \eps, \X ( \beta - \beta^0) + \eps \rangle_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
-        \end{split} \\
-    \end{align*}
-
-
-    \begin{align*}
-                 & \frac{\|\Y  - \X \hat{\beta} \|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\| \Y  - \X \beta^0 \|_2^2}{n}+\lambda\|\beta^{0}\|_{1}                                                   \\
-        \implies & \frac{\| ( \X \beta^0  + \varepsilon) - \X \hat{\beta} \|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\| (X \beta^0  + \varepsilon)  - \X \beta^0 \|_2^2}{n}+\lambda\|\beta^{0}\|_{1} \\
-        \implies & \frac{\| \X (\beta^0  - \hat{\beta}) \|_2^2 + \| \varepsilon \|_{2}^{2} + \left\langle \X (\beta^0  - \hat{\beta}), \varepsilon \right\rangle}{n} + \lambda \| \hat{\beta}\|_{1}                \\
-                 & \leq \frac{\| (\X \beta^0  + \varepsilon)  - \X \beta^0 \|_2^2}{n}+\lambda\|\beta^{0}\|_{1}
+                 & \frac{\|\Y  - \X \hat{\beta} \|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\| \Y  - \X \beta^0 \|_2^2}{n}+\lambda\|\beta^{0}\|_{1}                                                       \\
+        \implies &
+        \frac{\| (\X \beta^0 + \eps) - \X \hat \beta \|_{2}^{2}}{n}+\lambda\| \hat \beta \|_{1} \leq \frac{ \| (\X \beta^0 + \eps)-\X \beta^0\|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1}                                   \\
+        \implies &
+        \frac{\| \X ( \beta^0 - \hat \beta) + \eps \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{ \| \X ( \beta^0 - \beta^0) + \eps \|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1}                                  \\
+        \implies &
+        \frac{\langle \X ( \beta^0 - \hat \beta) + \eps, \X ( \beta^0 - \hat \beta) + \eps \rangle}{n}+\lambda \| \hat \beta \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1}                        \\
+        \implies &
+        \frac{\| \X (\beta^0 - \hat \beta) \| _2^2 + \| \eps \|_2^2 + 2 \langle \X ( \beta^0 - \hat \beta),  \eps \rangle}{n}+\lambda \| \hat \beta \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
+        \implies &
+        \frac{\| \X (\hat \beta - \beta^0) \| _2^2}{n} + \lambda \| \hat \beta \|_{1} \leq \frac{2 \langle \X ( \hat \beta - \beta^0),  \eps \rangle}{n} + \lambda \| \beta^0\|_{1} \\
+        \implies &
+        \frac{\| \X (\hat \beta - \beta^0) \| _2^2}{n} + \lambda \| \hat \beta \|_{1} \leq \frac{2 \eps^T \X ( \hat \beta - \beta^0)}{n} + \lambda \| \beta^0\|_{1} \\
     \end{align*}
 \end{proof}
