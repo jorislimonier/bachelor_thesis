@@ -37,8 +37,32 @@ We define $\hat \beta$ as follows
         \implies &
         \frac{\| \X (\beta^0 - \hat \beta) \| _2^2 + \| \eps \|_2^2 + 2 \langle \X ( \beta^0 - \hat \beta),  \eps \rangle}{n}+\lambda \| \hat \beta \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \beta^0\|_{1} \\
         \implies &
-        \frac{\| \X (\hat \beta - \beta^0) \| _2^2}{n} + \lambda \| \hat \beta \|_{1} \leq \frac{2 \langle \X ( \hat \beta - \beta^0),  \eps \rangle}{n} + \lambda \| \beta^0\|_{1} \\
+        \frac{\| \X (\hat \beta - \beta^0) \| _2^2}{n} + \lambda \| \hat \beta \|_{1} \leq \frac{2 \langle \X ( \hat \beta - \beta^0),  \eps \rangle}{n} + \lambda \| \beta^0\|_{1}                                    \\
         \implies &
-        \frac{\| \X (\hat \beta - \beta^0) \| _2^2}{n} + \lambda \| \hat \beta \|_{1} \leq \frac{2 \eps^T \X ( \hat \beta - \beta^0)}{n} + \lambda \| \beta^0\|_{1} \\
+        \frac{\| \X (\hat \beta - \beta^0) \| _2^2}{n} + \lambda \| \hat \beta \|_{1} \leq \frac{2 \eps^T \X ( \hat \beta - \beta^0)}{n} + \lambda \| \beta^0\|_{1}                                                    \\
+    \end{align*}
+\end{proof}
+
+Let
+$$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}$$
+
+\begin{lemma}[Lemma 6.2.]
+    For all $t > 0$ and
+    $$\lambda_{0}:=2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}}$$
+    we have
+    $$\mathbb{P}(\mathscr{T}) \geq 1-2 \exp \left[-t^{2} / 2\right]$$
+\end{lemma}
+\begin{proof}
+    We define
+    $$V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}}$$
+    Then we have
+    \begin{align*}
+        \mathbb{P}(\mathscr{T}) & = \P \left( \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq 2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}} \right\} \right) \\
+        & =
+        \P \left( \left\{\max _{1 \leq j \leq p} \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}} \leq \sqrt{t^{2}+2 \log p} \right\} \right) \\
+        & =
+        \P \left( \left\{\max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p} \right\} \right) \\
+        & =
+        1 - \P \left( \left\{\max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p} \right\} \right) \\
     \end{align*}
 \end{proof}
