@@ -58,11 +58,33 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
     Then we have
     \begin{align*}
         \mathbb{P}(\mathscr{T}) & = \P \left( \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq 2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}} \right\} \right) \\
-        & =
-        \P \left( \left\{\max _{1 \leq j \leq p} \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}} \leq \sqrt{t^{2}+2 \log p} \right\} \right) \\
-        & =
-        \P \left( \left\{\max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p} \right\} \right) \\
-        & =
-        1 - \P \left( \left\{\max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p} \right\} \right) \\
+                                & =
+        \P \left( \left\{\max _{1 \leq j \leq p} \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}} \leq \sqrt{t^{2}+2 \log p} \right\} \right)                                              \\
+                                & =
+        \P \left( \left\{\max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p} \right\} \right)                                                                                                 \\
+                                & =
+        1 - \P \left( \left\{\max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p} \right\} \right)                                                                                                \\
     \end{align*}
 \end{proof}
+
+
+\begin{theorem}[Compatibility condition]
+    We say that the compatibility condition is met for the set $S_{0}$, if for some $\phi_{0}>0$, and for all $\beta$ satisfying $\left\|\beta_{S_{0}^{c}}\right\|_{1} \leq 3\left\|\beta_{S_{0}}\right\|_{1}$, it holds that
+    $$
+        \left\| \beta_{S_{0}} \right\|_{1}^{2} \leq\left(\beta^{T} \hat{\Sigma} \beta\right) s_{0} / \phi_{0}^{2}
+    $$
+\end{theorem}
+
+\begin{theorem}[Theorem 6.1.]
+    Suppose the compatibility condition holds for $S_{0}$. Then on $\mathscr{T}$, we have for $\lambda \geq 2 \lambda_{0}$,
+    $$
+        \left\|\mathbf{X}\left(\hat{\beta}-\beta^{0}\right)\right\|_{2}^{2} / n+\lambda\left\|\hat{\beta}-\beta^{0}\right\|_{1} \leq 4 \lambda^{2} s_{0} / \phi_{0}^{2}
+    $$
+\end{theorem}
+
+\begin{theorem}[Compatibility condition for general sets]
+    We say that the compatibility condition holds for the set $S$, if for some constant $\phi(S)>0,$ and for all $\beta,$ with $\left\|\beta_{S^{c}}\right\|_{1} \leq$ $3\left\|\beta_{S}\right\|_{1},$ one has
+    $$
+        \left\|\beta_{S}\right\|_{1}^{2} \leq\left(\beta^{T} \hat{\Sigma} \beta\right)|S| / \phi^{2}(S)
+    $$
+\end{theorem}
