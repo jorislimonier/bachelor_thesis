@@ -68,16 +68,46 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \begin{lemma}[Lemma 6.3.]
     We have on $\mathscr{T}$, with $\lambda \geq 2 \lambda_{0}$,
     $$
-        2\left\|\mathbf{X}\left(\hat{\beta}-\beta^{0}\right)\right\|_{2}^{2} / n+\lambda\left\|\hat{\beta}_{S_{0}^{c}}\right\|_{1} \leq 3 \lambda\left\|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0}\right\|_{1}
+        2\frac{ \|\mathbf{X} (\hat{\beta}-\beta^{0} ) \|_{2}^{2}}{n} + \lambda \|\hat{\beta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1}
     $$
 \end{lemma}
 \begin{proof}
-    
+    We start with the Basic Inequality
+    $$
+        \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\beta}\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\hat{\beta}-\beta^{0})}{n}+\lambda\|\beta^{0}\|_{1}
+    $$
+    Now since we are on $\mathscr{T}$ and since $2 \lambda_0 \leq \lambda$
+    $$
+        \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\beta}\|_{1} \leq \lambda_0 \|\hat{\beta}-\beta^{0}\|_1 + \lambda\|\beta^{0}\|_{1}
+    $$
+    $$
+        2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n}+2 \lambda\|\hat{\beta}\|_{1} \leq \lambda \|\hat{\beta}-\beta^{0} \|_{1}+2 \lambda \|\beta^{0} \|_{1}
+    $$
+    By using the triangle inequality on the left hand side
+    \begin{align*}
+        \|\hat{\beta}\|_{1}
+         & = \|\hat{\beta}_{S_{0}} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1}                                                  \\
+         & = \|\beta_{S_{0}}^{0} - \beta_{S_{0}}^{0} + \hat{\beta}_{S_{0}} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1}          \\
+         & \geq \|\beta_{S_{0}}^{0} \|_{1} - \|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1}+ \|\hat{\beta}_{S_{0}^{c}} \|_{1}
+    \end{align*}
+    whereas on the right hand side
+    \begin{align*}
+        \|\hat{\beta}-\beta^{0} \|_{1}
+         & =  \| (\hat{\beta}_{S_{0}} + \hat{\beta}_{S_{0}^{c}}) - (\beta_{S_{0}}^{0} + \underbrace{\beta_{S_{0}^{c}}^0)}_{=0} \|_{1} \\
+         & =  \| \hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1}
+    \end{align*}
+    Injecting these two results, we get that
+    \begin{align*}
+                 & 2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + 2 \lambda\|\hat{\beta}\|_{1} \leq \lambda \|\hat{\beta}-\beta^{0} \|_{1}+2 \lambda \|\beta^{0} \|_{1}                                                                                                  \\
+        \implies & 2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + 2 \lambda \left( \|\beta_{S_{0}}^{0} \|_{1} - \|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1}+ \|\hat{\beta}_{S_{0}^{c}} \|_{1} \right)                                                                 \\
+                 & \leq \lambda \left( \| \hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1} \right) + 2 \lambda \|\beta^{0} \|_{1}                                                                                                                \\
+        \implies & 2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + 2 \lambda \|\underbrace{\beta_{S_{0}}^{0}}_{= \beta^0} \|_{1} + \lambda \|\hat{\beta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \| \hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1} + 2 \lambda \|\beta^{0} \|_{1} \\
+        \implies & 2\frac{ \|\mathbf{X} (\hat{\beta}-\beta^{0} ) \|_{2}^{2}}{n} + \lambda \|\hat{\beta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1}
+    \end{align*}
 \end{proof}
 
-
 \begin{theorem}[Compatibility condition]
-    We say that the compatibility condition is met for the set $S_{0}$, if for some $\phi_{0}>0$, and for all $\beta$ satisfying $\left\|\beta_{S_{0}^{c}}\right\|_{1} \leq 3\left\|\beta_{S_{0}}\right\|_{1}$, it holds that
+    We say that the compatibility condition is met for the set $S_{0}$, if for some $\phi_{0}>0$, and for all $\beta$ satisfying $ \|\beta_{S_{0}^{c}} \|_{1} \leq 3 \|\beta_{S_{0}} \|_{1}$, it holds that
     $$
         \left\| \beta_{S_{0}} \right\|_{1}^{2} \leq\left(\beta^{T} \hat{\Sigma} \beta\right) s_{0} / \phi_{0}^{2}
     $$
