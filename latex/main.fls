@@ -187,6 +187,8 @@ INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/notes.tex
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/notes.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
@@ -196,13 +198,14 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti12.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti8.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti7.tfm
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/chapter1.tex
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/chapter1.tex
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/chapter2.tex
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/chapter2.tex
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/chapter3.tex
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/chapters/chapter3.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/main.aux
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/main.out
 INPUT /home/joris/Documents/uni/bachelor_thesis/latex/main.out

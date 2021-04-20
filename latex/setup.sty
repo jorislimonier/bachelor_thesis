@@ -6,13 +6,10 @@
 %\newcommand\GoodBye[1][\bfseries]{{#1Good Bye}}
 
 % FRONT MATTER
-
 \RequirePackage{graphicx}
 \RequirePackage[a4paper]{geometry}
 
-
 % GENERAL
-
 \RequirePackage{import}
 \RequirePackage[british]{babel}
 	\RequirePackage{hyperref}   % Hyper-references, possible to change color
@@ -28,24 +25,24 @@
 \RequirePackage{tabularx}
 
 % MATHS
+	\RequirePackage{amsmath}
+	\RequirePackage{amsfonts}
+	\RequirePackage{amsthm}
+		\newtheorem{theorem}{Theorem}[chapter]
+		\newtheorem{definition}[theorem]{Definition}
+		\newtheorem{lemma}[theorem]{Lemma}
+		\newtheorem{corollary}[theorem]{Corollary}
+		\newtheorem*{remark}{Remark}
+	\RequirePackage{mathrsfs}
 
-\RequirePackage{amsmath}
-\RequirePackage{amsfonts}
-\RequirePackage{amsthm}
-	\newtheorem{theorem}{Theorem}[chapter]
-	\newtheorem{lemma}[theorem]{Lemma}
-	\newtheorem{corollary}[theorem]{Corollary}
-	\newtheorem*{remark}{Remark}
-\RequirePackage{mathrsfs}
-
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\C}{\mathbb{C}}
-\renewcommand{\P}{\mathbb{P}} % used to be some paragraph symbol
-\newcommand{\X}{\mathbf{X}}
-\newcommand{\Y}{\mathbf{Y}}
-\newcommand{\eps}{\boldsymbol{\varepsilon}}
+	\newcommand{\N}{\mathbb{N}}
+	\newcommand{\Z}{\mathbb{Z}}
+	\newcommand{\R}{\mathbb{R}}
+	\newcommand{\C}{\mathbb{C}}
+	\renewcommand{\P}{\mathbb{P}} % used to be some paragraph symbol
+	\newcommand{\X}{\mathbf{X}}
+	\newcommand{\Y}{\mathbf{Y}}
+	\newcommand{\eps}{\boldsymbol{\varepsilon}}
 
 
 
