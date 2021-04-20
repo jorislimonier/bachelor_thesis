@@ -83,7 +83,7 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
     $$
         2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n}+2 \lambda\|\hat{\beta}\|_{1} \leq \lambda \|\hat{\beta}-\beta^{0} \|_{1}+2 \lambda \|\beta^{0} \|_{1}
     $$
-    By using the triangle inequality on the left hand side
+    We use the triangle inequality on the left hand side
     \begin{align*}
         \|\hat{\beta}\|_{1}
          & = \|\hat{\beta}_{S_{0}} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1}                                                  \\
@@ -129,14 +129,15 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 
 \section{Section 6.3}
 
-Now $\mathbb{E} [\mathbf{Y}] :=\mathbf{f}^{0}$
+Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$ so $\mathbb{E} [\mathbf{Y}] :=\mathbf{f}^{0}$
 
 
 \begin{lemma}[New version of the Basic Inequality]
     $\forall \beta^* \in \R^p$ we have
     \begin{equation}
-        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}+\lambda \| \beta^*\|_{1} + \frac{2 \eps^T \X (\hat\beta - \beta^*)}{n}
+        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{2 \eps^T \X (\hat\beta - \beta^*)}{n} + \lambda \| \beta^*\|_{1} + \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}
     \end{equation}
+    $$    \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq  \frac{2 \eps^T \X (\hat\beta - \beta^*)}{n} + \lambda \| \beta^*\|_{1} + \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}$$
 \end{lemma}
 \begin{proof}
     By definition of $\hat \beta$, we have that
@@ -149,26 +150,64 @@ Now $\mathbb{E} [\mathbf{Y}] :=\mathbf{f}^{0}$
     $$
     We since $\Y = \mathbf{f}^0 + \eps$
     \begin{align*}
-                 & \frac{\|\Y  - \X \hat{\beta} \|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\| \Y  - \X \beta^* \|_2^2}{n}+\lambda\|\beta^{0}\|_{1}                                                                    \\
+                 & \frac{\|\Y  - \X \hat{\beta} \|_{2}^{2}}{n} + \lambda \| \hat{\beta}\|_{1} \leq \frac{\| \Y  - \X \beta^* \|_2^2}{n}+\lambda\|\beta^{0}\|_{1}                                                                      \\
         \implies &
-        \frac{\| (\mathbf{f}^0 + \eps) - \X \hat \beta \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{ \| (\mathbf{f}^0 + \eps)-\X \beta^*\|_{2}^{2}}{n}+\lambda \| \beta^*\|_{1}                                          \\
+        \frac{\| (\mathbf{f}^0 + \eps) - \X \hat \beta \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{ \| (\mathbf{f}^0 + \eps)-\X \beta^*\|_{2}^{2}}{n}+\lambda \| \beta^*\|_{1}                                            \\
         \implies &
-        \frac{\| (\mathbf{f}^0 - \X \hat \beta ) + \eps \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{ \| (\mathbf{f}^0 - \X \beta^*) + \eps \|_{2}^{2}}{n}+\lambda \| \beta^*\|_{1}                                      \\
+        \frac{\| (\mathbf{f}^0 - \X \hat \beta ) + \eps \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{ \| (\mathbf{f}^0 - \X \beta^*) + \eps \|_{2}^{2}}{n}+\lambda \| \beta^*\|_{1}                                        \\
         \implies &
-        \frac{\langle (\mathbf{f}^0 - \X \hat \beta ) + \eps, (\mathbf{f}^0 - \X \hat \beta ) + \eps \rangle}{n} + \lambda\| \hat \beta \|_{1}                                                                                      \\
-                 & \leq \frac{ \langle (\mathbf{f}^0 - \X \beta^*) + \eps, (\mathbf{f}^0 - \X \beta^*) + \eps \rangle}{n}+\lambda \| \beta^*\|_{1}                                                                                  \\
+        \frac{\langle (\mathbf{f}^0 - \X \hat \beta ) + \eps, (\mathbf{f}^0 - \X \hat \beta ) + \eps \rangle}{n} + \lambda\| \hat \beta \|_{1}                                                                                        \\
+                 & \leq \frac{ \langle (\mathbf{f}^0 - \X \beta^*) + \eps, (\mathbf{f}^0 - \X \beta^*) + \eps \rangle}{n}+\lambda \| \beta^*\|_{1}                                                                                    \\
         \implies &
-        \frac{\|\mathbf{f}^0 - \X \hat \beta \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \hat \beta, \eps \rangle}{n} + \lambda\| \hat \beta \|_{1}                                                                \\
-                 & \leq \frac{\|\mathbf{f}^0 - \X \beta^* \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \beta^*, \eps \rangle}{n}+\lambda \| \beta^*\|_{1}                                                           \\
+        \frac{\|\mathbf{f}^0 - \X \hat \beta \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \hat \beta, \eps \rangle}{n} + \lambda\| \hat \beta \|_{1}                                                                  \\
+                 & \leq \frac{\|\mathbf{f}^0 - \X \beta^* \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \beta^*, \eps \rangle}{n}+\lambda \| \beta^*\|_{1}                                                             \\
         \implies &
-        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}+\lambda \| \beta^*\|_{1} + \frac{2\langle \X (\hat\beta - \beta^*), \eps \rangle}{n} \\
+        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{2\langle \X (\hat\beta - \beta^*), \eps \rangle}{n} + \lambda \| \beta^*\|_{1} + \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
         \implies &
-        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}+\lambda \| \beta^*\|_{1} + \frac{2 \eps^T \X (\hat\beta - \beta^*)}{n}               \\
+        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \frac{2 \eps^T \X (\hat\beta - \beta^*)}{n} + \lambda \| \beta^*\|_{1} + \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}               \\
     \end{align*}
 \end{proof}
 
 \begin{lemma}[New version of the Lemma 6.3.]
+    We have on $\mathscr{T}$, with $\lambda \geq 4 \lambda_{0}$,
     \begin{equation}
         \frac{4 \|\mathbf{X} \hat{\beta}-\mathbf{f}^0\|_{2}^{2}}{n} + 3 \lambda \| \hat{\beta}_{S^{c}_{*}} \|_{1} \leq 5 \lambda \| \hat{\beta}_{S_{*}} - \beta_{S_{*}}^{*} \|_{1} + \frac{4 \|\mathbf{X} \beta^{*} - \mathbf{f}^{0} \|_{2}^{2}}{n}
     \end{equation}
 \end{lemma}
+\begin{proof}
+    We start with the Basic Inequality
+    $$
+        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq  \frac{2 \eps^T \X (\hat\beta - \beta^*)}{n} + \lambda \| \beta^*\|_{1} + \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}
+    $$
+    Now since we are on $\mathscr{T}$ and since $4 \lambda_0 \leq \lambda$
+    \begin{align*}
+                 & \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq  \frac{2 \eps^T \X (\hat\beta - \beta^*)}{n} + \lambda \| \beta^*\|_{1} + \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
+        \implies &
+        \frac{\|\X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \beta \|_{1} \leq \lambda_0 \| \hat\beta - \beta^* \|_{1} + \lambda \| \beta^*\|_{1} + \frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}            \\
+        \implies &
+        4 \frac{\| \X \hat \beta - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda\| \hat \beta \|_{1} \leq \lambda \| \hat\beta - \beta^* \|_{1} + 4 \lambda \| \beta^*\|_{1} + 4\frac{\|\X \beta^* - \mathbf{f}^0\|_{2}^{2}}{n}            \\
+    \end{align*}
+    We use the triangle inequality on the left hand side
+    \begin{align*}
+        \|\hat{\beta}\|_{1}
+         & = \|\hat{\beta}_{S_{0}} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1}                                                  \\
+         & = \|\beta_{S_{0}}^{0} - \beta_{S_{0}}^{0} + \hat{\beta}_{S_{0}} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1}          \\
+         & \geq \|\beta_{S_{0}}^{0} \|_{1} - \|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1}+ \|\hat{\beta}_{S_{0}^{c}} \|_{1}
+    \end{align*}
+    whereas on the right hand side
+    \begin{align*}
+        \|\hat{\beta}-\beta^{0} \|_{1}
+         & =  \| (\hat{\beta}_{S_{0}} + \hat{\beta}_{S_{0}^{c}}) - (\beta_{S_{0}}^{0} + \underbrace{\beta_{S_{0}^{c}}^0)}_{=0} \|_{1} \\
+         & =  \| \hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1}
+    \end{align*}
+    Injecting these two results, we get that
+    \begin{align*}
+                 & 2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + 2 \lambda\|\hat{\beta}\|_{1} \leq \lambda \|\hat{\beta}-\beta^{0} \|_{1}+2 \lambda \|\beta^{0} \|_{1}                                                                                                  \\
+        \implies & 2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + 2 \lambda \left( \|\beta_{S_{0}}^{0} \|_{1} - \|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1}+ \|\hat{\beta}_{S_{0}^{c}} \|_{1} \right)                                                                 \\
+                 & \leq \lambda \left( \| \hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1} + \|\hat{\beta}_{S_{0}^{c}} \|_{1} \right) + 2 \lambda \|\beta^{0} \|_{1}                                                                                                                \\
+        \implies & 2 \frac{\| \X (\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + 2 \lambda \|\underbrace{\beta_{S_{0}}^{0}}_{= \beta^0} \|_{1} + \lambda \|\hat{\beta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \| \hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1} + 2 \lambda \|\beta^{0} \|_{1} \\
+        \implies & 2\frac{ \|\mathbf{X} (\hat{\beta}-\beta^{0} ) \|_{2}^{2}}{n} + \lambda \|\hat{\beta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0} \|_{1}
+    \end{align*}
+\end{proof}
+
+
