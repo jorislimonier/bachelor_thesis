@@ -76,6 +76,24 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
          & \geq 1 - \sum_{j = 1}^{p} \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
          & \geq 1 - p \; \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                                    \\
     \end{align*}
+
+    Now, since $V_j$ is $\mathscr{N} (0,1)$-distributed and $\sqrt{t^{2}+2 \log p} > 0$.
+
+    \begin{align*}
+        P(Z > x) & = \frac{1}{\sqrt{2\pi}} \int_x^{\infty} exp(-y^2/2) dy       \\
+               & < \frac{1}{x \sqrt{2\pi}} \int_x^{\infty} y * e^{-y^2 / 2} dy \\
+               & = \frac{1}{x\sqrt{2\pi}} e^{-x^2/2}                       \\
+    \end{align*}
+
+
+    Let Z be a standard normal random variable and $x>0$. Then
+
+    $$P(Z>x)= 1/\sqrt{2\pi} \int_x^{\infty} exp(-y^2/2) dy < 1/(x*\sqrt{2\pi}) \int_x^{\infty} y*exp(-y^2/2) dy $$
+    $$= 1/(x\sqrt{2\pi}) exp(-x^2/2)$$
+    Since in our case $x\sqrt{2\pi}>1$ (if p is at least =2), we finally get
+    $P(Z>x)< exp(-x^2/2)$
+    Since the normal distribution is symmetric we also have
+    $P(|Z|>x)< 2exp(-x^2/2)$
 \end{proof}
 
 \begin{corollary}[Consistency of the LASSO]
@@ -144,14 +162,14 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \begin{proof}
     Using lemma \ref{lemma 6.3.} we have that
     \begin{align*}
-         & \quad 2 \frac{\|\mathbf{X}(\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\beta}-\beta^{0}\|_{1}                                                                              \\
-         & = 2 \frac{\|\mathbf{X}(\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda \| \hat{\beta}_{S_0} + \hat{\beta}_{S_{0}^{c}} - \beta^{0}_{S_0} - \underbrace{\beta^{0}_{S_0^c}}_{=0} \|_{1} \\
-         & = 2 \frac{\|\mathbf{X}(\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda \| \hat{\beta}_{S_0} - \beta^{0}_{S_0} \|_{1} + \lambda \| \hat{\beta}_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{lemma 6.3.})}                       \\
-         & \leq 4 \lambda \|\hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} \|_{1} \\
-         & \leq 4 \lambda \sqrt{\left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} \right)^{T} \hat{\Sigma} \left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}} \\
-         & \leq \sqrt{\left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}} \\
-         & \leq \| \X ( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}} \\
-         & \leq \| \X ( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n} \\
+         & \quad 2 \frac{\|\mathbf{X}(\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\beta}-\beta^{0}\|_{1}                                                                                                   \\
+         & = 2 \frac{\|\mathbf{X}(\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda \| \hat{\beta}_{S_0} + \hat{\beta}_{S_{0}^{c}} - \beta^{0}_{S_0} - \underbrace{\beta^{0}_{S_0^c}}_{=0} \|_{1}                      \\
+         & = 2 \frac{\|\mathbf{X}(\hat{\beta}-\beta^{0})\|_{2}^{2}}{n} + \lambda \| \hat{\beta}_{S_0} - \beta^{0}_{S_0} \|_{1} + \lambda \| \hat{\beta}_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{lemma 6.3.})} \\
+         & \leq 4 \lambda \|\hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} \|_{1}                                                                                                                                          \\
+         & \leq 4 \lambda \sqrt{\left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} \right)^{T} \hat{\Sigma} \left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                               \\
+         & \leq \sqrt{\left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                  \\
+         & \leq \| \X ( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                                                                                             \\
+         & \leq \| \X ( \hat{\beta}_{S_{0}} - \beta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n}                                                                                                   \\
     \end{align*}
     Where the last inequality follows from $4uv \leq u^2 + 4v^2$.
 \end{proof}
@@ -250,5 +268,6 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$ so $\mathbb{E} [\mathbf{Y}] :=\mathbf{f
         \left\|\beta_{S}\right\|_{1}^{2} \leq\left(\beta^{T} \hat{\Sigma} \beta\right)|S| / \phi^{2}(S)
     $$
 \end{definition}
+
 
 
