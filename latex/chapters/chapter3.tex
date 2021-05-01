@@ -55,39 +55,71 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \end{lemma}
 \begin{proof}
     We define
-    $$V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}}$$
+
+    $$
+        V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}}
+    $$
+
     Then we have
-    \begin{align*}
+    \begin{align}
+        \nonumber
         \mathbb{P}(\mathscr{T})
          & = \P \left( \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq 2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}}  \right) \\
+        \nonumber
          & =
         \P \left( \max _{1 \leq j \leq p} \left| \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}} \right| \leq \sqrt{t^{2}+2 \log p}  \right)        \\
+        \nonumber
          & =
         \P \left( \max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p}  \right)                                                                          \\
+        \nonumber
          & = 1 - \P \left( \max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                    \\
+        \nonumber
          & = 1 - \P \left( \bigcup_{j = 1}^{p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
+        \nonumber
          & \geq 1 - \sum_{j = 1}^{p} \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
-         & \geq 1 - p \; \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                                    \\
-    \end{align*}
+        \label{eqn: proof lemma 6.2.}
+         & \geq 1 - p \; \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)
+    \end{align}
 
     Now, let us define $\zeta := \sqrt{t^{2}+2 \log p}$. \\
     Since $V_j$ is $\mathscr{N} (0,1)$-distributed and $\zeta > 0$.
 
     \begin{align*}
-        P(Z > x) & = \frac{1}{\sqrt{2\pi}} \int_\zeta^{\infty} e^{-y^2/2} dy       \\
-               & < \frac{1}{\sqrt{2\pi}} \int_\zeta^{\infty} \frac{y}{\zeta} * e^{-y^2 / 2} dy \\
-               & = \frac{1}{\zeta \sqrt{2\pi}} \int_\zeta^{\infty} y * e^{-y^2 / 2} dy \\
-               & = \frac{1}{\zeta\sqrt{2\pi}} e^{-\zeta^2/2}                       \\
+        \mathbb{P}(V_j > \zeta) & = \frac{1}{\sqrt{2\pi}} \int_\zeta^{\infty} e^{-y^2/2} dy                     \\
+                                & < \frac{1}{\sqrt{2\pi}} \int_\zeta^{\infty} \frac{y}{\zeta} * e^{-y^2 / 2} dy \\
+                                & = \frac{1}{\zeta \sqrt{2\pi}} \int_\zeta^{\infty} y * e^{-y^2 / 2} dy         \\
+                                & = \frac{1}{\zeta\sqrt{2\pi}} e^{-\zeta^2/2}                                   \\
     \end{align*}
 
-    Let Z be a standard normal random variable and $x>0$. Then
+    We note that $p \geq 2 \implies \zeta \sqrt{2 \pi} \geq 1$ therefore
+    $$
+        \mathbb{P}(V_j > \zeta) <  e^{-\zeta^2/2}
+    $$
+    Moreover by symmetry of the $\mathscr{N} (0,1)$ distribution,
 
-    $$P(Z>x)= 1/\sqrt{2\pi} \int_x^{\infty} exp(-y^2/2) dy < 1/(x*\sqrt{2\pi}) \int_x^{\infty} y*exp(-y^2/2) dy $$
-    $$= 1/(x\sqrt{2\pi}) exp(-x^2/2)$$
-    Since in our case $x\sqrt{2\pi}>1$ (if p is at least =2), we finally get
-    $P(Z>x)< exp(-x^2/2)$
-    Since the normal distribution is symmetric we also have
-    $P(|Z|>x)< 2exp(-x^2/2)$
+    \begin{align*}
+        \mathbb{P} (|V_j| > \zeta) & = \mathbb{P} (V_j > \zeta) + \mathbb{P} (- V_j < - \zeta) \\
+                                   & = 2 \mathbb{P} (V_j > \zeta)                              \\
+                                   & < 2 e^{-\zeta^2/2}                                        \\
+    \end{align*}
+
+    Thus by definition of $\zeta$
+
+    \begin{align*}
+        \mathbb{P} (|V_j| > \zeta) & < 2 e^{-\zeta^2/2}                                                             \\
+                                   & = 2 \exp \left[ \frac{- \sqrt{t^{2} + 2 \log p} ^2}{2} \right]                 \\
+                                   & = 2 \exp \left[ \frac{- t^{2}}{2} - \log p \right]                             \\
+                                   & = 2 \exp \left[ \frac{- t^{2}}{2} \right] \exp \left[ \log \frac{1}{p} \right] \\
+                                   & = \frac{2}{p} \exp \left[ \frac{- t^{2}}{2} \right]                            \\
+    \end{align*}
+
+    Inserting this result into \eqref{eqn: proof lemma 6.2.} we obtain
+
+    \begin{align*}
+        \mathbb{P}(\mathscr{T}) & \geq 1 - p \; \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right) \\
+                                & \geq 1 - p \; \frac{2}{p} \exp \left[ \frac{- t^{2}}{2} \right] \\
+                                & = 1 - 2 \exp \left[ \frac{- t^{2}}{2} \right] \\
+    \end{align*}
 \end{proof}
 
 \begin{corollary}[Consistency of the LASSO]
