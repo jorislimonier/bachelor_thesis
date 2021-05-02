@@ -13,25 +13,57 @@ To be added
 
 We consider the setting of having a sample of $n$ observations
 
-$$(\X_1, \Y_1), \ldots ,(\X_n, \Y_n)$$
+\[
+    (\X_1, \Y_1), \ldots ,(\X_n, \Y_n)
+\]
 
-where $X_i \in \mathscr{X} \subseteq \R^p, \; i = 1, \ldots, n$ and $Y_i \in \mathscr{Y} \subseteq \R, \; i = 1, \ldots, n$.
+where $X_i \in \mathscr{X} \subseteq \R^p, \; i = 1, \ldots, n$ and $Y_i \in \mathscr{Y} \subseteq \R, \; i = 1, \ldots, n$. In other words, each of the observations contains $p$ covariates. In the real world this could mean having $n$ patients, $p$ observations per patient and trying to predict an outcome such as having a certain type of cancer.
 
-
-\begin{definition}[Linear regression model]
-    We define the linear regression model as
+\begin{definition}[The linear model]
+    The relationship between an observation $\X_i \in \mathscr{X}$ and its outcome $\Y_i \in \mathscr{Y}$ can be established by a linear model, that is
     \begin{equation}
-        \label{eqn: linear model (matrix)}
-        \Y = \X \bta + \eps
+        i = 1, \ldots, n \qquad \Y_{i} = \sum_{j=1}^{p} \bta_{j} \X_{i}^{(j)} + \eps_{i}
     \end{equation}
-    where
-    \begin{itemize}
-        \item $\X$ is called the design matrix. It has dimension $n \times p$
-        \item $\bta$ is called the parameter vector. It has dimension $p \times 1$
-        \item $\eps$ is called the error vector. It has dimension $n \times 1$
-        \item $\Y$ is called the response vector. It has dimension $n \times 1$
-    \end{itemize}
 \end{definition}
+
+Instead of seeing each observation individually we can deal with all of them together by expressing the linear model in matrix notation
+
+\begin{equation}
+    \label{eqn: linear model (matrix)}
+    \Y = \X \bta + \eps
+\end{equation}
+
+\begin{definition}
+    \begin{enumerate}[label=(\alph*)]
+        \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$.
+
+              $\X$ consists of stacking the vectors relative to each observation
+
+              \[
+                  X =
+                  \begin{bmatrix}
+                      \text{---} & X_1^T  & \text{---} \\
+                                 & \vdots &            \\
+                      \text{---} & X_n^T  & \text{---} \\
+                  \end{bmatrix}
+              \]
+        \item $\bta$ is called the \textbf{parameter vector}. It has dimension $p \times 1$.
+        \item $\eps$ is called the \textbf{error vector}. It has dimension $n \times 1$.
+        \item $\Y$ is called the \textbf{response vector}. It has dimension $n \times 1$.
+    \end{enumerate}
+\end{definition}
+
+
+Without loss of generality, and after centering and scaling if necessary, we can assume that
+
+\[
+    \forall j = 1, \ldots, p \quad
+    \begin{cases}
+        \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0                                                   \\
+        \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1 \\
+    \end{cases}
+\]
+
 
 \subsection{The least squares method}
 
@@ -54,7 +86,7 @@ which may be rewritten as
 
 We define $\btahat$ as follows
 \begin{equation}
-    \label{not: beta hat}
+    \label{eqn: beta hat (LASSO)}
     \btahat:=\arg \min _{\bta}\left\{\frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1}\right\}
 \end{equation}
 
@@ -94,7 +126,7 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 
 \begin{lemma}[Lemma 6.2.]
     For all $t > 0$ and
-    $$\lambda_{0}:=2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}}$$
+    $$\lambda_{0}:=2 \sgm \sqrt{\frac{t^{2}+2 \log p}{n}}$$
     we have
     $$\mathbb{P}(\mathscr{T}) \geq 1-2 \exp \left[-t^{2} / 2\right]$$
 \end{lemma}
@@ -102,26 +134,26 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
     We define
 
     $$
-        V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}}
+        V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sgm^{2}}}
     $$
 
     Then we have
     \begin{align}
         \nonumber
         \mathbb{P}(\mathscr{T})
-         & = \P \left( \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq 2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}}  \right) \\
+         & = \P \left( \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq 2 \sgm \sqrt{\frac{t^{2}+2 \log p}{n}}  \right) \\
         \nonumber
          & =
-        \P \left( \max _{1 \leq j \leq p} \left| \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}} \right| \leq \sqrt{t^{2}+2 \log p}  \right)        \\
+        \P \left( \max _{1 \leq j \leq p} \left| \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sgm^{2}}} \right| \leq \sqrt{t^{2}+2 \log p}  \right)        \\
         \nonumber
          & =
-        \P \left( \max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p}  \right)                                                                          \\
+        \P \left( \max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
         \nonumber
-         & = 1 - \P \left( \max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                    \\
+         & = 1 - \P \left( \max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                  \\
         \nonumber
-         & = 1 - \P \left( \bigcup_{j = 1}^{p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
+         & = 1 - \P \left( \bigcup_{j = 1}^{p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                      \\
         \nonumber
-         & \geq 1 - \sum_{j = 1}^{p} \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
+         & \geq 1 - \sum_{j = 1}^{p} \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                      \\
         \label{eqn: proof lemma 6.2.}
          & \geq 1 - p \; \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)
     \end{align}
@@ -168,10 +200,10 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \end{proof}
 
 \begin{corollary}[Consistency of the LASSO]
-    Assume $\sigma^2 = 1$ for all $j$. We define the regularization parameter as
-    $$\lambda = 4 \hat \sigma^2 \sqrt{\frac{t^2 + 2 \log p}{n}}$$
-    where $\hat \sigma$ is some estimator of $\sigma$. \\
-    Then with probability at least $1 - \alpha$, where $\alpha := 2 \exp(-t^2/2) + \P (\hat \sigma \leq \sigma)$ we have
+    Assume $\sgm^2 = 1$ for all $j$. We define the regularization parameter as
+    $$\lambda = 4 \sgmhat^2 \sqrt{\frac{t^2 + 2 \log p}{n}}$$
+    where $\sgmhat$ is some estimator of $\sgm$. \\
+    Then with probability at least $1 - \alpha$, where $\alpha := 2 \exp(-t^2/2) + \P (\sgmhat \leq \sgm)$ we have
     $$2 \frac{\| \X (\btahat - \bta^0)\|_2^2}{n} \leq 3 \lambda \| \bta^0 \|_1$$
 \end{corollary}
 
@@ -220,7 +252,7 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \begin{definition}[Compatibility condition]
     We say that the compatibility condition is met for the set $S_{0}$, if for some $\phi_{0}>0$, and for all $\bta$ satisfying $ \|\bta_{S_{0}^{c}} \|_{1} \leq 3 \|\bta_{S_{0}} \|_{1}$, it holds that
     \begin{equation}
-        \left\| \bta_{S_{0}} \right\|_{1}^{2} \leq \left(\bta^{T} \hat{\Sigma} \bta\right) \frac{s_{0}}{\phi_{0}^{2}}
+        \left\| \bta_{S_{0}} \right\|_{1}^{2} \leq \left(\bta^{T} \sgmhat \bta\right) \frac{s_{0}}{\phi_{0}^{2}}
     \end{equation}
 \end{definition}
 
@@ -237,7 +269,7 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
          & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} + \btahat_{S_{0}^{c}} - \bta^{0}_{S_0} - \underbrace{\bta^{0}_{S_0^c}}_{=0} \|_{1}                            \\
          & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} - \bta^{0}_{S_0} \|_{1} + \lambda \| \btahat_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{eqn: lemma 6.3.})} \\
          & \leq 4 \lambda \|\btahat_{S_{0}} - \bta_{S_{0}}^{0} \|_{1}                                                                                                                                      \\
-         & \leq 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \hat{\Sigma} \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                \\
+         & \leq 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \sgmhat \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                     \\
          & \leq \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                   \\
          & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                                                                                         \\
          & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n}                                                                                               \\
@@ -339,7 +371,7 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
 \begin{definition}[Compatibility condition for general sets]
     We say that the compatibility condition holds for the set $S$, if for some constant $\phi(S)>0,$ and for all $\bta,$ with $\left\|\bta_{S^{c}}\right\|_{1} \leq$ $3\left\|\bta_{S}\right\|_{1},$ one has
     $$
-        \left\|\bta_{S}\right\|_{1}^{2} \leq\left(\bta^{T} \hat{\Sigma} \bta\right)\frac{|S|}{\phi^{2}(S)}
+        \left\|\bta_{S}\right\|_{1}^{2} \leq\left(\bta^{T} \sgmhat \bta\right)\frac{|S|}{\phi^{2}(S)}
     $$
 \end{definition}
 
