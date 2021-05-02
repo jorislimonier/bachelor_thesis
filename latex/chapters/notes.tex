@@ -9,58 +9,114 @@ To be added
 
 \section{Notes for chapter 2}
 
-\subsection{Least squares}
+\subsection{Linear models}
 
-\begin{definition}[Linear regression model]
-    We define the linear regression model as
+We consider the setting of having a sample of $n$ observations
+
+\[
+    (\X_1, \Y_1), \ldots ,(\X_n, \Y_n)
+\]
+
+where $X_i \in \mathscr{X} \subseteq \R^p, \; i = 1, \ldots, n$ and $Y_i \in \mathscr{Y} \subseteq \R, \; i = 1, \ldots, n$. In other words, each of the observations contains $p$ covariates. In the real world this could mean having $n$ patients, $p$ observations per patient and trying to predict an outcome such as having a certain type of cancer.
+
+\begin{definition}[The linear model]
+    The relationship between an observation $\X_i \in \mathscr{X}$ and its outcome $\Y_i \in \mathscr{Y}$ can be established by a linear model, that is
     \begin{equation}
-        \label{eqn: linear model (matrix)}
-        \Y = \X \bta + \eps
+        i = 1, \ldots, n \qquad \Y_{i} = \sum_{j=1}^{p} \bta_{j} \X_{i}^{(j)} + \eps_{i}
     \end{equation}
 \end{definition}
 
-Least-squares consists of solving the minimizing the following function
+Instead of seeing each observation individually we can deal with all of them together by expressing the linear model in matrix notation
+
 \begin{equation}
-    \label{eqn: least-squares function}
+    \label{eqn: linear model (matrix)}
+    \Y = \X \bta + \eps
+\end{equation}
+
+\begin{definition}
+    \begin{enumerate}[label=(\alph*)]
+        \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$.
+
+              $\X$ consists of stacking the vectors relative to each observation
+
+              \[
+                  X =
+                  \begin{bmatrix}
+                      \text{---} & X_1^T  & \text{---} \\
+                                 & \vdots &            \\
+                      \text{---} & X_n^T  & \text{---} \\
+                  \end{bmatrix}
+              \]
+        \item $\bta$ is called the \textbf{parameter vector}. It has dimension $p \times 1$.
+        \item $\eps$ is called the \textbf{error vector}. It has dimension $n \times 1$.
+        \item $\Y$ is called the \textbf{response vector}. It has dimension $n \times 1$.
+    \end{enumerate}
+\end{definition}
+
+
+Without loss of generality, and after centering and scaling if necessary, we can assume that
+
+\[
+    \forall j = 1, \ldots, p \quad
+    \begin{cases}
+        \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0                                                   \\
+        \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1 \\
+    \end{cases}
+\]
+
+
+\subsection{The least squares method}
+
+The least squares problem consists of finding the minimizing vector $\btahat$ the following function
+\begin{equation}
+    \label{eqn: least squares function}
     S(\bta) = \sum_{i=1}^{n} \varepsilon_{i}^{2} = \eps^{T} \eps = (\Y-\X \bta)^{T}(\Y-\X \bta)
 \end{equation}
+
+which may be rewritten as
+
+\begin{align*}
+    S(\bta) & = (\Y - \X \bta)^{T} (\Y - \X \bta)                                \\
+            & = \Y^T \Y - \Y^T \X \bta - \btahat^T \X^T \Y - \bta^T \X^T \X \bta \\
+            & = \Y^T \Y - 2 \btahat^T \X^T \Y - \bta^T \X^T \X \bta              \\
+\end{align*}
 
 \section{Notes for chapter 3}
 \subsection{Section 6.2}
 
-We define $\hat \bta$ as follows
+We define $\btahat$ as follows
 \begin{equation}
-    \label{not: beta hat}
-    \hat{\bta}:=\arg \min _{\bta}\left\{\frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1}\right\}
+    \label{eqn: beta hat (LASSO)}
+    \btahat:=\arg \min _{\bta}\left\{\frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1}\right\}
 \end{equation}
 
 \begin{lemma}[Basic Inequality]
-    $$\frac{\| \X (\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\bta}\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\hat{\bta}-\bta^{0})}{n}+\lambda\|\bta^{0}\|_{1}$$
+    $$\frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda \| \bta^{0} \|_{1}$$
 \end{lemma}
 \begin{proof}
-    By definition of $\hat \bta$, we have that
+    By definition of $\btahat$, we have that
     $$
-        \forall \bta \quad \frac{\| \Y-\X \hat \bta \|_{2}^{2}}{n} + \lambda \| \hat \bta \|_{1} \leq \frac{\|\Y-\X \bta \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
+        \forall \bta \quad \frac{\| \Y-\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
     $$
     In particular for $\bta = \bta^0$ we have
     $$
-        \frac{\| \Y-\X \hat \bta \|_{2}^{2}}{n}+\lambda\| \hat \bta \|_{1} \leq \frac{ \| \Y-\X \bta^0\|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}
+        \frac{\| \Y-\X \btahat \|_{2}^{2}}{n}+\lambda\| \btahat \|_{1} \leq \frac{ \| \Y-\X \bta^0\|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}
     $$
     We now replace $\Y$ using equation \eqref{eqn: linear model (matrix)}.
     \begin{align*}
-                 & \frac{\|\Y  - \X \hat{\bta} \|_{2}^{2}}{n} + \lambda \| \hat{\bta}\|_{1} \leq \frac{\| \Y  - \X \bta^0 \|_2^2}{n}+\lambda\|\bta^{0}\|_{1}                                                     \\
+                 & \frac{\|\Y  - \X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat\|_{1} \leq \frac{\| \Y  - \X \bta^0 \|_2^2}{n}+\lambda\|\bta^{0}\|_{1}                                                     \\
         \implies &
-        \frac{\| (\X \bta^0 + \eps) - \X \hat \bta \|_{2}^{2}}{n}+\lambda\| \hat \bta \|_{1} \leq \frac{ \| (\X \bta^0 + \eps)-\X \bta^0\|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                                   \\
+        \frac{\| (\X \bta^0 + \eps) - \X \btahat \|_{2}^{2}}{n}+\lambda\| \btahat \|_{1} \leq \frac{ \| (\X \bta^0 + \eps)-\X \bta^0\|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                                 \\
         \implies &
-        \frac{\| \X ( \bta^0 - \hat \bta) + \eps \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq \frac{ \| \X ( \bta^0 - \bta^0) + \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                                  \\
+        \frac{\| \X ( \bta^0 - \btahat) + \eps \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{ \| \X ( \bta^0 - \bta^0) + \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                                \\
         \implies &
-        \frac{\langle \X ( \bta^0 - \hat \bta) + \eps, \X ( \bta^0 - \hat \bta) + \eps \rangle}{n}+\lambda \| \hat \bta \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                        \\
+        \frac{\langle \X ( \bta^0 - \btahat) + \eps, \X ( \bta^0 - \btahat) + \eps \rangle}{n}+\lambda \| \btahat \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                        \\
         \implies &
-        \frac{\| \X (\bta^0 - \hat \bta) \| _2^2 + \| \eps \|_2^2 + 2 \langle \X ( \bta^0 - \hat \bta),  \eps \rangle}{n}+\lambda \| \hat \bta \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1} \\
+        \frac{\| \X (\bta^0 - \btahat) \| _2^2 + \| \eps \|_2^2 + 2 \langle \X ( \bta^0 - \btahat),  \eps \rangle}{n}+\lambda \| \btahat \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1} \\
         \implies &
-        \frac{\| \X (\hat \bta - \bta^0) \| _2^2}{n} + \lambda \| \hat \bta \|_{1} \leq \frac{2 \langle \X ( \hat \bta - \bta^0),  \eps \rangle}{n} + \lambda \| \bta^0\|_{1}                                    \\
+        \frac{\| \X (\btahat - \bta^0) \| _2^2}{n} + \lambda \| \btahat \|_{1} \leq \frac{2 \langle \X ( \btahat - \bta^0),  \eps \rangle}{n} + \lambda \| \bta^0\|_{1}                                    \\
         \implies &
-        \frac{\| \X (\hat \bta - \bta^0) \| _2^2}{n} + \lambda \| \hat \bta \|_{1} \leq \frac{2 \eps^T \X ( \hat \bta - \bta^0)}{n} + \lambda \| \bta^0\|_{1}                                                    \\
+        \frac{\| \X (\btahat - \bta^0) \| _2^2}{n} + \lambda \| \btahat \|_{1} \leq \frac{2 \eps^T \X ( \btahat - \bta^0)}{n} + \lambda \| \bta^0\|_{1}                                                    \\
     \end{align*}
 \end{proof}
 
@@ -70,7 +126,7 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 
 \begin{lemma}[Lemma 6.2.]
     For all $t > 0$ and
-    $$\lambda_{0}:=2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}}$$
+    $$\lambda_{0}:=2 \sgm \sqrt{\frac{t^{2}+2 \log p}{n}}$$
     we have
     $$\mathbb{P}(\mathscr{T}) \geq 1-2 \exp \left[-t^{2} / 2\right]$$
 \end{lemma}
@@ -78,26 +134,26 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
     We define
 
     $$
-        V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}}
+        V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sgm^{2}}}
     $$
 
     Then we have
     \begin{align}
         \nonumber
         \mathbb{P}(\mathscr{T})
-         & = \P \left( \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq 2 \sigma \sqrt{\frac{t^{2}+2 \log p}{n}}  \right) \\
+         & = \P \left( \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq 2 \sgm \sqrt{\frac{t^{2}+2 \log p}{n}}  \right) \\
         \nonumber
          & =
-        \P \left( \max _{1 \leq j \leq p} \left| \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sigma^{2}}} \right| \leq \sqrt{t^{2}+2 \log p}  \right)        \\
+        \P \left( \max _{1 \leq j \leq p} \left| \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sgm^{2}}} \right| \leq \sqrt{t^{2}+2 \log p}  \right)        \\
         \nonumber
          & =
-        \P \left( \max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p}  \right)                                                                          \\
+        \P \left( \max _{1 \leq j \leq p} | V_{j} | \leq \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
         \nonumber
-         & = 1 - \P \left( \max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                    \\
+         & = 1 - \P \left( \max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                  \\
         \nonumber
-         & = 1 - \P \left( \bigcup_{j = 1}^{p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
+         & = 1 - \P \left( \bigcup_{j = 1}^{p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                      \\
         \nonumber
-         & \geq 1 - \sum_{j = 1}^{p} \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                        \\
+         & \geq 1 - \sum_{j = 1}^{p} \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                      \\
         \label{eqn: proof lemma 6.2.}
          & \geq 1 - p \; \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)
     \end{align}
@@ -144,79 +200,79 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \end{proof}
 
 \begin{corollary}[Consistency of the LASSO]
-    Assume $\sigma^2 = 1$ for all $j$. We define the regularization parameter as
-    $$\lambda = 4 \hat \sigma^2 \sqrt{\frac{t^2 + 2 \log p}{n}}$$
-    where $\hat \sigma$ is some estimator of $\sigma$. \\
-    Then with probability at least $1 - \alpha$, where $\alpha := 2 \exp(-t^2/2) + \P (\hat \sigma \leq \sigma)$ we have
-    $$2 \frac{\| \X (\hat \bta - \bta^0)\|_2^2}{n} \leq 3 \lambda \| \bta^0 \|_1$$
+    Assume $\sgm^2 = 1$ for all $j$. We define the regularization parameter as
+    $$\lambda = 4 \sgmhat^2 \sqrt{\frac{t^2 + 2 \log p}{n}}$$
+    where $\sgmhat$ is some estimator of $\sgm$. \\
+    Then with probability at least $1 - \alpha$, where $\alpha := 2 \exp(-t^2/2) + \P (\sgmhat \leq \sgm)$ we have
+    $$2 \frac{\| \X (\btahat - \bta^0)\|_2^2}{n} \leq 3 \lambda \| \bta^0 \|_1$$
 \end{corollary}
 
 \begin{lemma}[Lemma 6.3.]
     We have on $\mathscr{T}$, with $\lambda \geq 2 \lambda_{0}$,
     \begin{equation}
         \label{eqn: lemma 6.3.}
-        2\frac{ \|\mathbf{X} (\hat{\bta}-\bta^{0} ) \|_{2}^{2}}{n} + \lambda \|\hat{\bta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\hat{\bta}_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}
+        2\frac{ \|\mathbf{X} (\btahat-\bta^{0} ) \|_{2}^{2}}{n} + \lambda \|\btahat_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}
     \end{equation}
 \end{lemma}
 \begin{proof}
     We start with the Basic Inequality
     $$
-        \frac{\| \X (\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\bta}\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\hat{\bta}-\bta^{0})}{n}+\lambda\|\bta^{0}\|_{1}
+        \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda\|\bta^{0}\|_{1}
     $$
     Now since we are on $\mathscr{T}$ and since $2 \lambda_0 \leq \lambda$
     $$
-        \frac{\| \X (\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\bta}\|_{1} \leq \lambda_0 \|\hat{\bta}-\bta^{0}\|_1 + \lambda\|\bta^{0}\|_{1}
+        \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq \lambda_0 \|\btahat-\bta^{0}\|_1 + \lambda\|\bta^{0}\|_{1}
     $$
     $$
-        2 \frac{\| \X (\hat{\bta}-\bta^{0})\|_{2}^{2}}{n}+2 \lambda\|\hat{\bta}\|_{1} \leq \lambda \|\hat{\bta}-\bta^{0} \|_{1}+2 \lambda \|\bta^{0} \|_{1}
+        2 \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n}+2 \lambda\|\btahat\|_{1} \leq \lambda \|\btahat-\bta^{0} \|_{1}+2 \lambda \|\bta^{0} \|_{1}
     $$
     Let $\bta_{j, S}:=\bta_{j} 1\{j \in S\}$. We use the triangle inequality on the left hand side
     \begin{align*}
-        \|\hat{\bta}\|_{1}
-         & = \|\hat{\bta}_{S_{0}} \|_{1} + \|\hat{\bta}_{S_{0}^{c}} \|_{1}                                                \\
-         & = \|\bta_{S_{0}}^{0} - \bta_{S_{0}}^{0} + \hat{\bta}_{S_{0}} \|_{1} + \|\hat{\bta}_{S_{0}^{c}} \|_{1}          \\
-         & \geq \|\bta_{S_{0}}^{0} \|_{1} - \|\hat{\bta}_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}+ \|\hat{\bta}_{S_{0}^{c}} \|_{1}
+        \|\btahat\|_{1}
+         & = \|\btahat_{S_{0}} \|_{1} + \|\btahat_{S_{0}^{c}} \|_{1}                                                \\
+         & = \|\bta_{S_{0}}^{0} - \bta_{S_{0}}^{0} + \btahat_{S_{0}} \|_{1} + \|\btahat_{S_{0}^{c}} \|_{1}          \\
+         & \geq \|\bta_{S_{0}}^{0} \|_{1} - \|\btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}+ \|\btahat_{S_{0}^{c}} \|_{1}
     \end{align*}
     whereas on the right hand side
     \begin{align*}
-        \|\hat{\bta}-\bta^{0} \|_{1}
-         & =  \| (\hat{\bta}_{S_{0}} + \hat{\bta}_{S_{0}^{c}}) - (\bta_{S_{0}}^{0} + \underbrace{\bta_{S_{0}^{c}}^0)}_{=0} \|_{1} \\
-         & =  \| \hat{\bta}_{S_{0}}-\bta_{S_{0}}^{0} \|_{1} + \|\hat{\bta}_{S_{0}^{c}} \|_{1}
+        \|\btahat-\bta^{0} \|_{1}
+         & =  \| (\btahat_{S_{0}} + \btahat_{S_{0}^{c}}) - (\bta_{S_{0}}^{0} + \underbrace{\bta_{S_{0}^{c}}^0)}_{=0} \|_{1} \\
+         & =  \| \btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1} + \|\btahat_{S_{0}^{c}} \|_{1}
     \end{align*}
     Injecting these two results, we get that
     \begin{align*}
-                 & 2 \frac{\| \X (\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + 2 \lambda\|\hat{\bta}\|_{1} \leq \lambda \|\hat{\bta}-\bta^{0} \|_{1}+2 \lambda \|\bta^{0} \|_{1}                                                                                                \\
-        \implies & 2 \frac{\| \X (\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + 2 \lambda \left( \|\bta_{S_{0}}^{0} \|_{1} - \|\hat{\bta}_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}+ \|\hat{\bta}_{S_{0}^{c}} \|_{1} \right)                                                               \\
-                 & \leq \lambda \left( \| \hat{\bta}_{S_{0}}-\bta_{S_{0}}^{0} \|_{1} + \|\hat{\bta}_{S_{0}^{c}} \|_{1} \right) + 2 \lambda \|\bta^{0} \|_{1}                                                                                                            \\
-        \implies & 2 \frac{\| \X (\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + 2 \lambda \|\underbrace{\bta_{S_{0}}^{0}}_{= \bta^0} \|_{1} + \lambda \|\hat{\bta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \| \hat{\bta}_{S_{0}}-\bta_{S_{0}}^{0} \|_{1} + 2 \lambda \|\bta^{0} \|_{1} \\
-        \implies & 2\frac{ \|\mathbf{X} (\hat{\bta}-\bta^{0} ) \|_{2}^{2}}{n} + \lambda \|\hat{\bta}_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\hat{\bta}_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}
+                 & 2 \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + 2 \lambda\|\btahat\|_{1} \leq \lambda \|\btahat-\bta^{0} \|_{1}+2 \lambda \|\bta^{0} \|_{1}                                                                                                \\
+        \implies & 2 \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + 2 \lambda \left( \|\bta_{S_{0}}^{0} \|_{1} - \|\btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}+ \|\btahat_{S_{0}^{c}} \|_{1} \right)                                                               \\
+                 & \leq \lambda \left( \| \btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1} + \|\btahat_{S_{0}^{c}} \|_{1} \right) + 2 \lambda \|\bta^{0} \|_{1}                                                                                                         \\
+        \implies & 2 \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + 2 \lambda \|\underbrace{\bta_{S_{0}}^{0}}_{= \bta^0} \|_{1} + \lambda \|\btahat_{S_{0}^{c}} \|_{1} \leq 3 \lambda \| \btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1} + 2 \lambda \|\bta^{0} \|_{1} \\
+        \implies & 2\frac{ \|\mathbf{X} (\btahat-\bta^{0} ) \|_{2}^{2}}{n} + \lambda \|\btahat_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}
     \end{align*}
 \end{proof}
 
 \begin{definition}[Compatibility condition]
     We say that the compatibility condition is met for the set $S_{0}$, if for some $\phi_{0}>0$, and for all $\bta$ satisfying $ \|\bta_{S_{0}^{c}} \|_{1} \leq 3 \|\bta_{S_{0}} \|_{1}$, it holds that
     \begin{equation}
-        \left\| \bta_{S_{0}} \right\|_{1}^{2} \leq \left(\bta^{T} \hat{\Sigma} \bta\right) \frac{s_{0}}{\phi_{0}^{2}}
+        \left\| \bta_{S_{0}} \right\|_{1}^{2} \leq \left(\bta^{T} \sgmhat \bta\right) \frac{s_{0}}{\phi_{0}^{2}}
     \end{equation}
 \end{definition}
 
 \begin{theorem}[Theorem 6.1.]
     Suppose the compatibility condition holds for $S_{0}$. Then on $\mathscr{T}$, we have for $\lambda \geq 2 \lambda_{0}$,
     $$
-        \frac{\|\mathbf{X}(\hat{\bta}-\bta^{0})\|_{2}^{2}}{n}+\lambda\|\hat{\bta}-\bta^{0}\|_{1} \leq 4 \lambda^{2} \frac{s_{0}}{\phi_{0}^{2}}
+        \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n}+\lambda\|\btahat-\bta^{0}\|_{1} \leq 4 \lambda^{2} \frac{s_{0}}{\phi_{0}^{2}}
     $$
 \end{theorem}
 \begin{proof}
     Using lemma \ref{eqn: lemma 6.3.} we have that
     \begin{align*}
-         & \quad 2 \frac{\|\mathbf{X}(\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\hat{\bta}-\bta^{0}\|_{1}                                                                                                       \\
-         & = 2 \frac{\|\mathbf{X}(\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \hat{\bta}_{S_0} + \hat{\bta}_{S_{0}^{c}} - \bta^{0}_{S_0} - \underbrace{\bta^{0}_{S_0^c}}_{=0} \|_{1}                            \\
-         & = 2 \frac{\|\mathbf{X}(\hat{\bta}-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \hat{\bta}_{S_0} - \bta^{0}_{S_0} \|_{1} + \lambda \| \hat{\bta}_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{eqn: lemma 6.3.})} \\
-         & \leq 4 \lambda \|\hat{\bta}_{S_{0}} - \bta_{S_{0}}^{0} \|_{1}                                                                                                                                            \\
-         & \leq 4 \lambda \sqrt{\left( \hat{\bta}_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \hat{\Sigma} \left( \hat{\bta}_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                   \\
-         & \leq \sqrt{\left( \hat{\bta}_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \hat{\bta}_{S_{0}} - \bta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                      \\
-         & \leq \| \X ( \hat{\bta}_{S_{0}} - \bta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                                                                                               \\
-         & \leq \| \X ( \hat{\bta}_{S_{0}} - \bta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n}                                                                                                     \\
+         & \quad 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat-\bta^{0}\|_{1}                                                                                                    \\
+         & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} + \btahat_{S_{0}^{c}} - \bta^{0}_{S_0} - \underbrace{\bta^{0}_{S_0^c}}_{=0} \|_{1}                            \\
+         & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} - \bta^{0}_{S_0} \|_{1} + \lambda \| \btahat_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{eqn: lemma 6.3.})} \\
+         & \leq 4 \lambda \|\btahat_{S_{0}} - \bta_{S_{0}}^{0} \|_{1}                                                                                                                                      \\
+         & \leq 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \sgmhat \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                     \\
+         & \leq \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                   \\
+         & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                                                                                         \\
+         & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n}                                                                                               \\
     \end{align*}
     Where the last inequality follows from $4uv \leq u^2 + 4v^2$.
 \end{proof}
@@ -230,35 +286,35 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
 \begin{lemma}[New version of the Basic Inequality]
     $\forall \bta^* \in \R^p$ we have
     \begin{equation}
-        \frac{\|\X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq \frac{2 \eps^T \X (\hat\bta - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}
+        \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}
     \end{equation}
 \end{lemma}
 \begin{proof}
-    By definition of $\hat \bta$, we have that
+    By definition of $\btahat$, we have that
     $$
-        \forall \bta \quad \frac{\| \Y -\X \hat \bta \|_{2}^{2}}{n} + \lambda \| \hat \bta \|_{1} \leq \frac{\|\Y-\X \bta \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
+        \forall \bta \quad \frac{\| \Y -\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
     $$
     In particular for $\bta = \bta^*$ we have
     $$
-        \forall \bta^* \quad \frac{\| \Y -\X \hat \bta \|_{2}^{2}}{n} + \lambda \| \hat \bta \|_{1} \leq \frac{\|\Y-\X \bta^* \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
+        \forall \bta^* \quad \frac{\| \Y -\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta^* \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
     $$
     We since $\Y = \mathbf{f}^0 + \eps$
     \begin{align*}
-                 & \frac{\|\Y  - \X \hat{\bta} \|_{2}^{2}}{n} + \lambda \| \hat{\bta}\|_{1} \leq \frac{\| \Y  - \X \bta^* \|_2^2}{n}+\lambda\|\bta^{0}\|_{1}                                                                    \\
+                 & \frac{\|\Y  - \X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat\|_{1} \leq \frac{\| \Y  - \X \bta^* \|_2^2}{n}+\lambda\|\bta^{0}\|_{1}                                                                     \\
         \implies &
-        \frac{\| (\mathbf{f}^0 + \eps) - \X \hat \bta \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq \frac{ \| (\mathbf{f}^0 + \eps)-\X \bta^*\|_{2}^{2}}{n}+\lambda \| \bta^*\|_{1}                                          \\
+        \frac{\| (\mathbf{f}^0 + \eps) - \X \btahat \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{ \| (\mathbf{f}^0 + \eps)-\X \bta^*\|_{2}^{2}}{n}+\lambda \| \bta^*\|_{1}                                         \\
         \implies &
-        \frac{\| (\mathbf{f}^0 - \X \hat \bta ) + \eps \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq \frac{ \| (\mathbf{f}^0 - \X \bta^*) + \eps \|_{2}^{2}}{n}+\lambda \| \bta^*\|_{1}                                      \\
+        \frac{\| (\mathbf{f}^0 - \X \btahat ) + \eps \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{ \| (\mathbf{f}^0 - \X \bta^*) + \eps \|_{2}^{2}}{n}+\lambda \| \bta^*\|_{1}                                     \\
         \implies &
-        \frac{\langle (\mathbf{f}^0 - \X \hat \bta ) + \eps, (\mathbf{f}^0 - \X \hat \bta ) + \eps \rangle}{n} + \lambda\| \hat \bta \|_{1}                                                                                     \\
-                 & \leq \frac{ \langle (\mathbf{f}^0 - \X \bta^*) + \eps, (\mathbf{f}^0 - \X \bta^*) + \eps \rangle}{n}+\lambda \| \bta^*\|_{1}                                                                                 \\
+        \frac{\langle (\mathbf{f}^0 - \X \btahat ) + \eps, (\mathbf{f}^0 - \X \btahat ) + \eps \rangle}{n} + \lambda\| \btahat \|_{1}                                                                                      \\
+                 & \leq \frac{ \langle (\mathbf{f}^0 - \X \bta^*) + \eps, (\mathbf{f}^0 - \X \bta^*) + \eps \rangle}{n}+\lambda \| \bta^*\|_{1}                                                                            \\
         \implies &
-        \frac{\|\mathbf{f}^0 - \X \hat \bta \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \hat \bta, \eps \rangle}{n} + \lambda\| \hat \bta \|_{1}                                                               \\
-                 & \leq \frac{\|\mathbf{f}^0 - \X \bta^* \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \bta^*, \eps \rangle}{n}+\lambda \| \bta^*\|_{1}                                                          \\
+        \frac{\|\mathbf{f}^0 - \X \btahat \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \btahat, \eps \rangle}{n} + \lambda\| \btahat \|_{1}                                                                \\
+                 & \leq \frac{\|\mathbf{f}^0 - \X \bta^* \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \bta^*, \eps \rangle}{n}+\lambda \| \bta^*\|_{1}                                                     \\
         \implies &
-        \frac{\|\X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq \frac{2\langle \X (\hat\bta - \bta^*), \eps \rangle}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
+        \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{2\langle \X (\btahat - \bta^*), \eps \rangle}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
         \implies &
-        \frac{\|\X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq \frac{2 \eps^T \X (\hat\bta - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}               \\
+        \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}               \\
     \end{align*}
 \end{proof}
 
@@ -266,47 +322,47 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
     We have on $\mathscr{T}$, with $\lambda \geq 4 \lambda_{0}$,
     \begin{equation}
         \label{eqn: new version of lemma 6.3.}
-        \frac{4 \|\mathbf{X} \hat{\bta}-\mathbf{f}^0\|_{2}^{2}}{n} + 3 \lambda \| \hat{\bta}_{S^{c}_{*}} \|_{1} \leq 5 \lambda \| \hat{\bta}_{S_{*}} - \bta_{S_{*}}^{*} \|_{1} + \frac{4 \|\mathbf{X} \bta^{*} - \mathbf{f}^{0} \|_{2}^{2}}{n}
+        \frac{4 \|\mathbf{X} \btahat-\mathbf{f}^0\|_{2}^{2}}{n} + 3 \lambda \| \btahat_{S^{c}_{*}} \|_{1} \leq 5 \lambda \| \btahat_{S_{*}} - \bta_{S_{*}}^{*} \|_{1} + \frac{4 \|\mathbf{X} \bta^{*} - \mathbf{f}^{0} \|_{2}^{2}}{n}
     \end{equation}
     where $S_* := \{ j: \bta_j^* \neq 0 \}$.
 \end{lemma}
 \begin{proof}
     We start with the Basic Inequality
     $$
-        \frac{\|\X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq  \frac{2 \eps^T \X (\hat\bta - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}
+        \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq  \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}
     $$
     Now since we are on $\mathscr{T}$ and since $4 \lambda_0 \leq \lambda$
     \begin{align*}
-                 & \frac{\|\X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq  \frac{2 \eps^T \X (\hat\bta - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
+                 & \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq  \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
         \implies &
-        \frac{\|\X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \hat \bta \|_{1} \leq \lambda_0 \| \hat\bta - \bta^* \|_{1} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}                 \\
+        \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \lambda_0 \| \btahat - \bta^* \|_{1} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}                 \\
         \implies &
-        4 \frac{\| \X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda\| \hat \bta \|_{1} \leq \lambda \| \hat\bta - \bta^* \|_{1} + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}           \\
+        4 \frac{\| \X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda\| \btahat \|_{1} \leq \lambda \| \btahat - \bta^* \|_{1} + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}           \\
     \end{align*}
     We use the triangle inequality on the left hand side
     \begin{align*}
-        \|\hat{\bta}\|_{1}
-         & = \|\hat{\bta}_{S_{*}} \|_{1} + \|\hat{\bta}_{S_{*}^{c}} \|_{1}                                                \\
-         & = \|\bta_{S_{*}}^{*} - \bta_{S_{*}}^{*} + \hat{\bta}_{S_{*}} \|_{1} + \|\hat{\bta}_{S_{*}^{c}} \|_{1}          \\
-         & \geq \|\bta_{S_{*}}^{*} \|_{1} - \|\hat{\bta}_{S_{*}}-\bta_{S_{*}}^{*} \|_{1}+ \|\hat{\bta}_{S_{*}^{c}} \|_{1}
+        \|\btahat\|_{1}
+         & = \|\btahat_{S_{*}} \|_{1} + \|\btahat_{S_{*}^{c}} \|_{1}                                                \\
+         & = \|\bta_{S_{*}}^{*} - \bta_{S_{*}}^{*} + \btahat_{S_{*}} \|_{1} + \|\btahat_{S_{*}^{c}} \|_{1}          \\
+         & \geq \|\bta_{S_{*}}^{*} \|_{1} - \|\btahat_{S_{*}}-\bta_{S_{*}}^{*} \|_{1}+ \|\btahat_{S_{*}^{c}} \|_{1}
     \end{align*}
     whereas on the right hand side
     \begin{align*}
-        \|\hat{\bta}-\bta^{*} \|_{1}
-         & =  \| (\hat{\bta}_{S_{*}} + \hat{\bta}_{S_{*}^{c}}) - (\bta_{S_{*}}^{*} + \underbrace{\bta_{S_{*}^{c}}^*}_{=0}) \|_{1} \\
-         & =  \| \hat{\bta}_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + \|\hat{\bta}_{S_{*}^{c}} \|_{1}
+        \|\btahat-\bta^{*} \|_{1}
+         & =  \| (\btahat_{S_{*}} + \btahat_{S_{*}^{c}}) - (\bta_{S_{*}}^{*} + \underbrace{\bta_{S_{*}^{c}}^*}_{=0}) \|_{1} \\
+         & =  \| \btahat_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + \|\btahat_{S_{*}^{c}} \|_{1}
     \end{align*}
     Injecting these two results, we get that
     \begin{align*}
-                 & 4 \frac{\| \X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda\| \hat \bta \|_{1} \leq \lambda \| \hat\bta - \bta^* \|_{1} + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
+                 & 4 \frac{\| \X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda\| \btahat \|_{1} \leq \lambda \| \btahat - \bta^* \|_{1} + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
         \implies &
-        4 \frac{\| \X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda \left( \|\bta_{S_{*}}^{*} \|_{1} - \|\hat{\bta}_{S_{*}}-\bta_{S_{*}}^{*} \|_{1}+ \|\hat{\bta}_{S_{*}^{c}} \|_{1} \right)                             \\
-                 & \leq \lambda \left( \| \hat{\bta}_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + \|\hat{\bta}_{S_{*}^{c}} \|_{1} \right) + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}                   \\
+        4 \frac{\| \X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda \left( \|\bta_{S_{*}}^{*} \|_{1} - \|\btahat_{S_{*}}-\bta_{S_{*}}^{*} \|_{1}+ \|\btahat_{S_{*}^{c}} \|_{1} \right)                                \\
+                 & \leq \lambda \left( \| \btahat_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + \|\btahat_{S_{*}^{c}} \|_{1} \right) + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}                    \\
         \implies &
-        4 \frac{\| \X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda \| \underbrace{\bta_{S_{*}}^{*}}_{= \bta^{*}} \|_{1} + 3 \lambda\|\hat{\bta}_{S_{*}^{c}} \|_{1}                                                      \\
-                 & \leq 5 \lambda \| \hat{\bta}_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}                                                                  \\
+        4 \frac{\| \X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda \| \underbrace{\bta_{S_{*}}^{*}}_{= \bta^{*}} \|_{1} + 3 \lambda\|\btahat_{S_{*}^{c}} \|_{1}                                                      \\
+                 & \leq 5 \lambda \| \btahat_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}                                                                \\
         \implies &
-        4 \frac{\| \X \hat \bta - \mathbf{f}^0 \|_{2}^{2}}{n} + 3 \lambda\|\hat{\bta}_{S_{*}^{c}} \|_{1} \leq 5 \lambda \| \hat{\bta}_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}        \\
+        4 \frac{\| \X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + 3 \lambda\|\btahat_{S_{*}^{c}} \|_{1} \leq 5 \lambda \| \btahat_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}           \\
     \end{align*}
 \end{proof}
 
@@ -315,7 +371,7 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
 \begin{definition}[Compatibility condition for general sets]
     We say that the compatibility condition holds for the set $S$, if for some constant $\phi(S)>0,$ and for all $\bta,$ with $\left\|\bta_{S^{c}}\right\|_{1} \leq$ $3\left\|\bta_{S}\right\|_{1},$ one has
     $$
-        \left\|\bta_{S}\right\|_{1}^{2} \leq\left(\bta^{T} \hat{\Sigma} \bta\right)\frac{|S|}{\phi^{2}(S)}
+        \left\|\bta_{S}\right\|_{1}^{2} \leq\left(\bta^{T} \sgmhat \bta\right)\frac{|S|}{\phi^{2}(S)}
     $$
 \end{definition}
 
