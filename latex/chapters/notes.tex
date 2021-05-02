@@ -37,7 +37,7 @@ Instead of seeing each observation individually we can deal with all of them tog
     \begin{enumerate}[label=(\alph*)]
         \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$.
 
-              $\X$ consists of stacking the vectors relative to each observation
+              $\X$ consists of stacking the vectors relative to each observation inside of a matrix
 
               \[
                   X =
@@ -54,20 +54,20 @@ Instead of seeing each observation individually we can deal with all of them tog
 \end{definition}
 
 
-Without loss of generality, and after centering and scaling if necessary, we can assume that
+% Without loss of generality, and after centering and scaling if necessary, we can assume that
 
-\[
-    \forall j = 1, \ldots, p \quad
-    \begin{cases}
-        \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0                                                   \\
-        \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1 \\
-    \end{cases}
-\]
+% \[
+%     \forall j = 1, \ldots, p \quad
+%     \begin{cases}
+%         \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0                                                   \\
+%         \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1 \\
+%     \end{cases}
+% \]
 
 
 \subsection{The least squares method}
 
-The least squares problem consists of finding the minimizing vector $\btahat$ the following function
+The least squares problem consists of finding the vector $\btahat$ minimizing the following function
 \begin{equation}
     \label{eqn: least squares function}
     S(\bta) = \sum_{i=1}^{n} \varepsilon_{i}^{2} = \eps^{T} \eps = (\Y-\X \bta)^{T}(\Y-\X \bta)
@@ -76,18 +76,36 @@ The least squares problem consists of finding the minimizing vector $\btahat$ th
 which may be rewritten as
 
 \begin{align*}
-    S(\bta) & = (\Y - \X \bta)^{T} (\Y - \X \bta)                                \\
-            & = \Y^T \Y - \Y^T \X \bta - \btahat^T \X^T \Y - \bta^T \X^T \X \bta \\
-            & = \Y^T \Y - 2 \btahat^T \X^T \Y - \bta^T \X^T \X \bta              \\
+    S(\bta) & = (\Y - \X \bta)^{T} (\Y - \X \bta)                             \\
+            & = \Y^T \Y - \Y^T \X \bta - \bta^T \X^T \Y + \bta^T \X^T \X \bta \\
+            & = \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta              \\
 \end{align*}
+
+We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and setting this to 0.
+
+\begin{align}
+             & \frac{\partial}{\partial \bta} S(\btahat) = 0 \nonumber                                                                  \\
+    \implies & \frac{\partial}{\partial \btahat} \left( \Y^T \Y - 2 \btahat^T \X^T \Y + \btahat^T \X^T \X \btahat \right) = 0 \nonumber \\
+    \implies & - 2 \X^T \Y + 2 \X^T \X \btahat = 0 \nonumber                                                                            \\
+    \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations}                                                    
+\end{align}
+
+where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations.
+
+If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares normal equations} yields
+
+\[
+    \btahat = (\X^T \X)^{-1} \X^T \Y
+\]
 
 \section{Notes for chapter 3}
 \subsection{Section 6.2}
+We work with an underdetermined system : there are more
 
 We define $\btahat$ as follows
 \begin{equation}
     \label{eqn: beta hat (LASSO)}
-    \btahat:=\arg \min _{\bta}\left\{\frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1}\right\}
+    \btahat:=\arg \min _{\bta}\left\{ \frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1} \right\}
 \end{equation}
 
 \begin{lemma}[Basic Inequality]
