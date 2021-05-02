@@ -67,9 +67,10 @@ Instead of seeing each observation individually we can deal with all of them tog
 
 \subsection{The least squares method}
 
-The least squares problem consists of finding the vector $\btahat$ minimizing the following function
+We define the objective function \( S(\bta) \) as follows
+
 \begin{equation}
-    \label{eqn: least squares function}
+    \label{eqn: least squares objective function}
     S(\bta) = \sum_{i=1}^{n} \varepsilon_{i}^{2} = \eps^{T} \eps = (\Y-\X \bta)^{T}(\Y-\X \bta)
 \end{equation}
 
@@ -81,7 +82,14 @@ which may be rewritten as
             & = \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta              \\
 \end{align*}
 
-We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and setting this to 0.
+The least squares method aims at finding the vector $\btahat$ minimizing \( S \), that is
+
+\[
+    \btahat := \arg \min_{\bta} S(\bta)
+\]
+
+
+We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and setting the result to 0.
 
 \begin{align}
              & \frac{\partial}{\partial \bta} S(\btahat) = 0 \nonumber                                                                  \\
@@ -92,15 +100,27 @@ We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and sett
 
 where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations.
 
-If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares normal equations} yields
+If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares normal equations} yields our least squares estimator \( \btahat \)
 
-\[
+\begin{equation}
+    \label{eqn: least squares estimator}
     \btahat = (\X^T \X)^{-1} \X^T \Y
-\]
+\end{equation}
+
+
 
 \section{Notes for chapter 3}
 \subsection{Section 6.2}
-We work with an underdetermined system : there are more
+We work with an underdetermined system : there are more variables than equations, or in our context, there are more parameters than observations (\(p>n\)).
+
+We can estimate the quality of our prediction with the residual.
+
+\begin{definition}[Residual]
+    The \textbf{residual} is the difference between the prediction of our model and the observed value, that is
+    \[
+        e := X (\btahat - \bta) \in \R^n
+    \]
+\end{definition}
 
 We define $\btahat$ as follows
 \begin{equation}
