@@ -1,2 +1,109 @@
 \chapter{Classical theory of Linear Regression}
 
+\section{Linear models}
+
+We consider the setting of having a sample of $n$ observations
+
+\[
+    (\X_1, \Y_1), \ldots ,(\X_n, \Y_n)
+\]
+
+where $X_i \in \mathscr{X} \subseteq \R^p, \; i = 1, \ldots, n$ and $Y_i \in \mathscr{Y} \subseteq \R, \; i = 1, \ldots, n$. In other words, each of the observations contains $p$ covariates. In the real world this could mean having $n$ patients, $p$ observations per patient and trying to predict an outcome such as having a certain type of cancer.
+
+\begin{definition}[The linear model]
+    The relationship between an observation $\X_i \in \mathscr{X}$ and its outcome $\Y_i \in \mathscr{Y}$ can be established by a linear model, that is
+    \begin{equation}
+        i = 1, \ldots, n \qquad \Y_{i} = \sum_{j=1}^{p} \bta_{j} \X_{i}^{(j)} + \eps_{i}
+    \end{equation}
+\end{definition}
+
+Instead of seeing each observation individually we can deal with all of them together by expressing the linear model in matrix notation
+
+\begin{equation}
+    \label{eqn: linear model (matrix)}
+    \Y = \X \bta + \eps
+\end{equation}
+
+\begin{definition}
+    \begin{enumerate}[label=(\alph*)]
+        \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$.
+
+              $\X$ consists of stacking the vectors relative to each observation inside of a matrix
+
+              \[
+                  X =
+                  \begin{bmatrix}
+                      \text{---} & X_1^T  & \text{---} \\
+                                 & \vdots &            \\
+                      \text{---} & X_n^T  & \text{---} \\
+                  \end{bmatrix}
+              \]
+        \item $\bta$ is called the \textbf{parameter vector}. It has dimension $p \times 1$.
+        \item $\eps$ is called the \textbf{error vector}. It has dimension $n \times 1$.
+        \item $\Y$ is called the \textbf{response vector}. It has dimension $n \times 1$.
+    \end{enumerate}
+\end{definition}
+
+
+% Without loss of generality, and after centering and scaling if necessary, we can assume that
+
+% \[
+%     \forall j = 1, \ldots, p \quad
+%     \begin{cases}
+%         \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0                                                   \\
+%         \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1 \\
+%     \end{cases}
+% \]
+
+
+\section{The least squares method}
+
+We define the objective function \( S(\bta) \) as follows
+
+\begin{equation}
+    \label{eqn: least squares objective function}
+    S(\bta) = \sum_{i=1}^{n} \varepsilon_{i}^{2} = \eps^{T} \eps = (\Y-\X \bta)^{T}(\Y-\X \bta)
+\end{equation}
+
+which may be rewritten as
+
+\begin{align*}
+    S(\bta) & = (\Y - \X \bta)^{T} (\Y - \X \bta)                             \\
+            & = \Y^T \Y - \Y^T \X \bta - \bta^T \X^T \Y + \bta^T \X^T \X \bta \\
+            & = \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta              \\
+\end{align*}
+
+The least squares method aims at finding the vector $\btahat$ minimizing \( S \), that is
+
+\[
+    \btahat := \arg \min_{\bta} S(\bta)
+\]
+
+
+We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and setting the result to 0.
+
+\begin{align}
+             & \frac{\partial}{\partial \bta} S(\btahat) = 0 \nonumber                                                                  \\
+    \implies & \frac{\partial}{\partial \btahat} \left( \Y^T \Y - 2 \btahat^T \X^T \Y + \btahat^T \X^T \X \btahat \right) = 0 \nonumber \\
+    \implies & - 2 \X^T \Y + 2 \X^T \X \btahat = 0 \nonumber                                                                            \\
+    \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations}                                                    
+\end{align}
+
+where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations.
+
+If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares normal equations} yields that our least squares estimator \( \btahat \) is
+
+\begin{equation}
+    \label{eqn: least squares estimator}
+    \btahat = (\X^T \X)^{-1} \X^T \Y
+\end{equation}
+
+We are interested in estimating the quality of our prediction. The residuals can help us do that.
+
+\begin{definition}[Residual]
+    The \textbf{residual} is the difference between the prediction of our model and the observed value, that is
+    \[
+        e := X (\btahat - \bta) \in \R^n
+    \]
+\end{definition}
+
