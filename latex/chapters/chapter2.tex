@@ -86,7 +86,7 @@ We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and sett
              & \frac{\partial}{\partial \bta} S(\btahat) = 0 \nonumber                                                                  \\
     \implies & \frac{\partial}{\partial \btahat} \left( \Y^T \Y - 2 \btahat^T \X^T \Y + \btahat^T \X^T \X \btahat \right) = 0 \nonumber \\
     \implies & - 2 \X^T \Y + 2 \X^T \X \btahat = 0 \nonumber                                                                            \\
-    \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations}                                                    
+    \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations}
 \end{align}
 
 where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations.
@@ -100,10 +100,20 @@ If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares no
 
 We are interested in estimating the quality of our prediction. The residuals can help us do that.
 
-\begin{definition}[Residual]
-    The \textbf{residual} is the difference between the prediction of our model and the observed value, that is
+\begin{definition}[Residuals]
+    For a given set of observations \(\Y\), the \textbf{residuals} (or \textbf{vector of residuals}) is the difference between the prediction of our model and the observed value, that is
     \[
-        e := X (\btahat - \bta) \in \R^n
+        X (\btahat - \bta) \in \R^n
     \]
 \end{definition}
+
+However, since the residuals take into account the sign of the difference, they may partially cancel out. We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for for that purpose.
+
+\begin{definition}[Prediction error]
+    For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value. In other words, it is the squared residuals, that is
+    \[
+        \| X (\btahat - \bta) \|_2^2 \in \R
+    \]
+\end{definition}
+
 
