@@ -24,13 +24,11 @@ We define $\btahat$ as follows
     $$
         \frac{\| \Y-\X \btahat \|_{2}^{2}}{n}+\lambda\| \btahat \|_{1} \leq \frac{ \| \Y-\X \bta^0\|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}
     $$
-    We now replace $\Y$ using equation \eqref{eqn: linear model (matrix)}.
+    We now replace $\Y$ using equation \eqref{eqn: linear model (matrix)}:
     \begin{align*}
                  & \frac{\|\Y  - \X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat\|_{1} \leq \frac{\| \Y  - \X \bta^0 \|_2^2}{n}+\lambda\|\bta^{0}\|_{1}                                                     \\
         \implies &
         \frac{\| (\X \bta^0 + \eps) - \X \btahat \|_{2}^{2}}{n}+\lambda\| \btahat \|_{1} \leq \frac{ \| (\X \bta^0 + \eps)-\X \bta^0\|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                                 \\
-        \implies &
-        \frac{\| \X ( \bta^0 - \btahat) + \eps \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{ \| \X ( \bta^0 - \bta^0) + \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                                \\
         \implies &
         \frac{\langle \X ( \bta^0 - \btahat) + \eps, \X ( \bta^0 - \btahat) + \eps \rangle}{n}+\lambda \| \btahat \|_{1} \leq \frac{ \| \eps \|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}                        \\
         \implies &
@@ -40,8 +38,8 @@ We define $\btahat$ as follows
         \implies &
         \frac{\| \X (\btahat - \bta^0) \| _2^2}{n} + \lambda \| \btahat \|_{1} \leq \frac{2 \eps^T \X ( \btahat - \bta^0)}{n} + \lambda \| \bta^0\|_{1}                                                    \\
     \end{align*}
+    This completes the proof.
 \end{proof}
-
 
 Let
 $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}$$
@@ -73,23 +71,20 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
         \nonumber
          & = 1 - \P \left( \max _{1 \leq j \leq p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                  \\
         \nonumber
-         & = 1 - \P \left( \bigcup_{j = 1}^{p} | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                      \\
+         & = 1 - \P \left( \bigcup_{j = 1}^{p} \left\{ | V_{j} | > \sqrt{t^{2}+2 \log p}  \right\} \right)                                                                      \\
         \nonumber
          & \geq 1 - \sum_{j = 1}^{p} \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)                                                                      \\
         \label{eqn: proof lemma 6.2.}
          & \geq 1 - p \; \P \left( | V_{j} | > \sqrt{t^{2}+2 \log p}  \right)
     \end{align}
-
-    Now, let us define $\zeta := \sqrt{t^{2}+2 \log p}$. \\
-    Since $V_j$ is $\mathscr{N} (0,1)$-distributed and $\zeta > 0$.
+    Now, let us define $\zeta := \sqrt{t^{2}+2 \log p}$. Since $V_j$ is $\mathscr{N} (0,1)$-distributed and $\zeta > 0$, it follows that
 
     \begin{align*}
         \mathbb{P}(V_j > \zeta) & = \frac{1}{\sqrt{2\pi}} \int_\zeta^{\infty} e^{-y^2/2} dy                     \\
-                                & < \frac{1}{\sqrt{2\pi}} \int_\zeta^{\infty} \frac{y}{\zeta} * e^{-y^2 / 2} dy \\
-                                & = \frac{1}{\zeta \sqrt{2\pi}} \int_\zeta^{\infty} y * e^{-y^2 / 2} dy         \\
+                                & < \frac{1}{\sqrt{2\pi}} \int_\zeta^{\infty} \frac{y}{\zeta} e^{-y^2 / 2} dy \\
+                                & = \frac{1}{\zeta \sqrt{2\pi}} \int_\zeta^{\infty} y e^{-y^2 / 2} dy         \\
                                 & = \frac{1}{\zeta\sqrt{2\pi}} e^{-\zeta^2/2}                                   \\
     \end{align*}
-
     We note that $p \geq 2 \implies \zeta \sqrt{2 \pi} \geq 1$ therefore
     $$
         \mathbb{P}(V_j > \zeta) <  e^{-\zeta^2/2}
@@ -97,21 +92,9 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
     Moreover by symmetry of the $\mathscr{N} (0,1)$ distribution,
 
     \begin{align*}
-        \mathbb{P} (|V_j| > \zeta) & = \mathbb{P} (V_j > \zeta) + \mathbb{P} (- V_j < - \zeta) \\
-                                   & = 2 \mathbb{P} (V_j > \zeta)                              \\
+        \mathbb{P} (|V_j| > \zeta) & = 2 \mathbb{P} (V_j > \zeta)                              \\
                                    & < 2 e^{-\zeta^2/2}                                        \\
     \end{align*}
-
-    Thus by definition of $\zeta$
-
-    \begin{align*}
-        \mathbb{P} (|V_j| > \zeta) & < 2 e^{-\zeta^2/2}                                                             \\
-                                   & = 2 \exp \left[ \frac{- \sqrt{t^{2} + 2 \log p} ^2}{2} \right]                 \\
-                                   & = 2 \exp \left[ \frac{- t^{2}}{2} - \log p \right]                             \\
-                                   & = 2 \exp \left[ \frac{- t^{2}}{2} \right] \exp \left[ \log \frac{1}{p} \right] \\
-                                   & = \frac{2}{p} \exp \left[ \frac{- t^{2}}{2} \right]                            \\
-    \end{align*}
-
     Inserting this result into \eqref{eqn: proof lemma 6.2.} we obtain
 
     \begin{align*}
@@ -130,11 +113,11 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \end{corollary}
 
 \begin{lemma}[Lemma 6.3.]
+    \label{eqn: lemma 6.3.}
     We have on $\mathscr{T}$, with $\lambda \geq 2 \lambda_{0}$,
-    \begin{equation}
-        \label{eqn: lemma 6.3.}
+    \begin{equation*}
         2\frac{ \|\mathbf{X} (\btahat-\bta^{0} ) \|_{2}^{2}}{n} + \lambda \|\btahat_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}
-    \end{equation}
+    \end{equation*}
 \end{lemma}
 \begin{proof}
     We start with the Basic Inequality
@@ -174,7 +157,7 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
 \begin{definition}[Compatibility condition]
     We say that the compatibility condition is met for the set $S_{0}$, if for some $\phi_{0}>0$, and for all $\bta$ satisfying $ \|\bta_{S_{0}^{c}} \|_{1} \leq 3 \|\bta_{S_{0}} \|_{1}$, it holds that
     \begin{equation}
-        \left\| \bta_{S_{0}} \right\|_{1}^{2} \leq \left(\bta^{T} \sgmhat \bta\right) \frac{s_{0}}{\phi_{0}^{2}}
+        \left\| \bta_{S_{0}} \right\|_{1}^{2} \leq \left(\bta^{T} \Sgmhat \bta\right) \frac{s_{0}}{\phi_{0}^{2}}
     \end{equation}
 \end{definition}
 
@@ -185,13 +168,13 @@ $$\mathscr{T} := \left\{\max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \
     $$
 \end{theorem}
 \begin{proof}
-    Using lemma \ref{eqn: lemma 6.3.} we have that
+    Using Lemma \ref{eqn: lemma 6.3.} we have that
     \begin{align*}
          & \quad 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat-\bta^{0}\|_{1}                                                                                                    \\
          & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} + \btahat_{S_{0}^{c}} - \bta^{0}_{S_0} - \underbrace{\bta^{0}_{S_0^c}}_{=0} \|_{1}                            \\
          & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} - \bta^{0}_{S_0} \|_{1} + \lambda \| \btahat_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{eqn: lemma 6.3.})} \\
          & \leq 4 \lambda \|\btahat_{S_{0}} - \bta_{S_{0}}^{0} \|_{1}                                                                                                                                      \\
-         & \leq 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \sgmhat \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                     \\
+         & = 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \Sgmhat \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                     \\
          & \leq \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                   \\
          & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                                                                                         \\
          & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n}                                                                                               \\
@@ -218,13 +201,11 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
     $$
     In particular for $\bta = \bta^*$ we have
     $$
-        \forall \bta^* \quad \frac{\| \Y -\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta^* \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
+        \forall \bta^* \quad \frac{\| \Y -\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta^* \|_{2}^{2}}{n}+\lambda \| \bta^* \|_{1}
     $$
-    We since $\Y = \mathbf{f}^0 + \eps$
+    Since $\Y = \mathbf{f}^0 + \eps$:
     \begin{align*}
-                 & \frac{\|\Y  - \X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat\|_{1} \leq \frac{\| \Y  - \X \bta^* \|_2^2}{n}+\lambda\|\bta^{0}\|_{1}                                                                     \\
-        \implies &
-        \frac{\| (\mathbf{f}^0 + \eps) - \X \btahat \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{ \| (\mathbf{f}^0 + \eps)-\X \bta^*\|_{2}^{2}}{n}+\lambda \| \bta^*\|_{1}                                         \\
+                 & \frac{\|\Y  - \X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat\|_{1} \leq \frac{\| \Y  - \X \bta^* \|_2^2}{n}+\lambda\|\bta^{*}\|_{1}                                                                     \\
         \implies &
         \frac{\| (\mathbf{f}^0 - \X \btahat ) + \eps \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{ \| (\mathbf{f}^0 - \X \bta^*) + \eps \|_{2}^{2}}{n}+\lambda \| \bta^*\|_{1}                                     \\
         \implies &
@@ -233,8 +214,6 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
         \implies &
         \frac{\|\mathbf{f}^0 - \X \btahat \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \btahat, \eps \rangle}{n} + \lambda\| \btahat \|_{1}                                                                \\
                  & \leq \frac{\|\mathbf{f}^0 - \X \bta^* \|_{2}^{2} + \| \eps \|_{2}^{2} + 2\langle \mathbf{f}^0 - \X \bta^*, \eps \rangle}{n}+\lambda \| \bta^*\|_{1}                                                     \\
-        \implies &
-        \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{2\langle \X (\btahat - \bta^*), \eps \rangle}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
         \implies &
         \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}               \\
     \end{align*}
@@ -256,8 +235,6 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
     Now since we are on $\mathscr{T}$ and since $4 \lambda_0 \leq \lambda$
     \begin{align*}
                  & \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq  \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
-        \implies &
-        \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \lambda_0 \| \btahat - \bta^* \|_{1} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}                 \\
         \implies &
         4 \frac{\| \X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + 4 \lambda\| \btahat \|_{1} \leq \lambda \| \btahat - \bta^* \|_{1} + 4 \lambda \| \bta^*\|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}           \\
     \end{align*}
