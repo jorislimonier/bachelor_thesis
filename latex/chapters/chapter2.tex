@@ -32,29 +32,32 @@ Instead of seeing each observation individually we can deal with all of them tog
 \begin{definition}\
     \begin{enumerate}[label=(\alph*)]
         \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$. $\X$ consists of stacking the vectors relative to each observation inside of a matrix
-            \[
-                X =
-                \begin{bmatrix}
-                    \text{---} & X_1^T  & \text{---} \\
-                                & \vdots &            \\
-                    \text{---} & X_n^T  & \text{---} \\
-                \end{bmatrix}
-            \]
+              \[
+                  X =
+                  \begin{bmatrix}
+                      \text{---} & X_1^T  & \text{---} \\
+                                 & \vdots &            \\
+                      \text{---} & X_n^T  & \text{---} \\
+                  \end{bmatrix}
+              \]
         \item $\bta$ is called the \textbf{parameter vector}. It has dimension $p \times 1$.
         \item $\eps$ is called the \textbf{error vector}. It has dimension $n \times 1$.
         \item $\Y$ is called the \textbf{response vector}. It has dimension $n \times 1$.
     \end{enumerate}
 \end{definition}
 
-Without loss of generality, and after centering and scaling if necessary, we can assume that
+Without loss of generality, and after centering and scaling if necessary, we can make the following assumptions \(\forall j = 1, \ldots, p\):
 
-\[
-    \forall j = 1, \ldots, p \quad
-    \begin{cases}
-        \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0                                                   \\
-        \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1 \\
-    \end{cases}
-\]
+\begin{enumerate}
+    \item The mean of the response vector is 0:
+        \[
+            \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0
+        \]
+    \item The variance of the observations is 1:
+        \[
+            \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1
+        \]
+\end{enumerate}
 
 \section{The least squares method}
 
