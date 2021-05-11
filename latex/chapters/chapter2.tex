@@ -1,11 +1,5 @@
 \chapter{Classical theory of Linear Regression}
 
-To be added
-\begin{itemize}
-    \item how to get $\hat b$ on page 101.
-    \item where the $\chi^2$ distribution comes from in page 101
-\end{itemize}
-
 \section{Linear models}
 
 We consider the setting of having a sample of $n$ observations
@@ -46,25 +40,12 @@ Instead of seeing each observation individually we can deal with all of them tog
     \end{enumerate}
 \end{definition}
 
-Without loss of generality, and after centering and scaling if necessary, we can make the following assumptions \(\forall j = 1, \ldots, p\):
-
-\begin{enumerate}
-    \item The mean of the response vector is 0:
-        \[
-            \bar{\Y} = \frac{1}{n} \sum \limits_{i=1}^{n} \Y_{i} = 0
-        \]
-    \item The variance of the observations is 1:
-        \[
-            \sgmhat_{j}^{2} := \frac{1}{n} \sum \limits_{i=1}^{n} \left( \X_{i}^{(j)} - \bar{\X}^{(j)} \right)^{2} = 1
-        \]
-\end{enumerate}
-
 \section{The least squares method}
 
 We define the objective function \( S(\bta) \) as follows
 \begin{equation}
     \label{eqn: least squares objective function}
-    S(\bta) = \sum_{i=1}^{n} \varepsilon_{i}^{2} = \eps^{T} \eps = (\Y-\X \bta)^{T}(\Y-\X \bta)
+    S(\bta) := \eps^{T} \eps = (\Y-\X \bta)^{T}(\Y-\X \bta)
 \end{equation}
 which may be rewritten as
 \begin{align*}
@@ -90,7 +71,7 @@ If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares no
     \label{eqn: least squares estimator}
     \btahat = (\X^T \X)^{-1} \X^T \Y
 \end{equation}
-We are interested in estimating the quality of our prediction. The residuals can help us do that.
+However, we are interested in estimating the quality of our prediction. The residuals can help us do that.
 \begin{definition}[Residuals]
     For a given set of observations \(\Y\), the \textbf{residuals} (or \textbf{vector of residuals}) is the difference between the prediction of our model and the observed value, that is
     \[
@@ -101,10 +82,12 @@ We are interested in estimating the quality of our prediction. The residuals can
 We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for for that purpose.
 
 \begin{definition}[Prediction error]
-    For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value. In other words, it is the squared residuals, that is
+    For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
     \[
         \| X (\btahat - \bta) \|_2^2
     \]
 \end{definition}
+
+
 
 
