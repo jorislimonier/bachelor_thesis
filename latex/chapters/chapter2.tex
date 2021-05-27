@@ -71,7 +71,32 @@ If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares no
     \label{eqn: least squares estimator}
     \btahat = (\X^T \X)^{-1} \X^T \Y
 \end{equation}
-However, we are interested in estimating the quality of our prediction. The residuals can help us do that.
+Now, we can verify that our estimator has some fundamental properties. Namely, we want to make sure that it is unbiased, \ie $\E [\btahat] = \bta$.
+\begin{align*}
+    \E \left[ \btahat \right]
+     & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \Y \right]                                                \\
+     & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T}(\X \bta + \eps)\right]                                    \\
+     & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \X \bta + \left(\X^{T} \X\right)^{-1} \X^{T} \eps \right] \\
+     & = \bta
+\end{align*}
+Moreover, we want to take a look at the estimator's variance. For this purpose we will use the covariance matrix. Let \(U, V \in \R^p\), recall that the covariance matrix is defined as
+\[
+    \cov (U, V) := \E \left[ \left( U - \E (U) \right) \left( V - \E (V) \right)^T \right] \in \mathcal{M}_{p \times p}(\R)
+\]
+where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance between \( U_i \) and \( V_j\). In the particular case \( U = V \), the diagonal of the covariance matrix is nothing else than the variance of \( U \),that is
+\[
+    \var (U)_i = \cov (U, U)_{ii} \quad i = 1, \ldots, p
+\]
+Therefore the variance of \(\btahat\) is given by
+\begin{align*}
+    \var(\btahat)
+     & =\var \left[\left(\X^T \X\right)^{-1} \X^T \Y\right]                                  \\
+     & =\left(\X^T \X\right)^{-1} \X^T \var(\Y)\left[\left(\X^T \X\right)^{-1} \X^T\right]^T \\
+     & =\sigma^{2}\left(\X^T \X\right)^{-1} \X^T \X\left(\X^T \X\right)^{-1}                 \\
+     & =\sigma^{2}\left(\X^T \X\right)^{-1}
+\end{align*}
+
+Now that we confirmed the above properties of \( \btahat \), we are interested in estimating the quality of our prediction. The residuals can help us do that.
 \begin{definition}[Residuals]
     For a given set of observations \(\Y\), the \textbf{residuals} (or \textbf{vector of residuals}) is the difference between the prediction of our model and the observed value, that is
     \[
@@ -79,7 +104,7 @@ However, we are interested in estimating the quality of our prediction. The resi
     \]
 \end{definition}
 
-We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for for that purpose.
+We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
 
 \begin{definition}[Prediction error]
     For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
