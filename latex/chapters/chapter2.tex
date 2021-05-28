@@ -71,30 +71,48 @@ If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares no
     \label{eqn: least squares estimator}
     \btahat = (\X^T \X)^{-1} \X^T \Y
 \end{equation}
-Now, we can verify that our estimator has some fundamental properties. Namely, we want to make sure that it is unbiased, \ie $\E [\btahat] = \bta$.
-\begin{align*}
-    \E \left[ \btahat \right]
-     & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \Y \right]                                                \\
-     & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T}(\X \bta + \eps)\right]                                    \\
-     & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \X \bta + \left(\X^{T} \X\right)^{-1} \X^{T} \eps \right] \\
-     & = \bta
-\end{align*}
+Now, we can verify that our estimator has some fundamental properties.
+\begin{proposition}
+    \(\btahat\) is unbiased, that is $\E [\btahat] = \bta$.
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \E \left[ \btahat \right]
+         & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \Y \right]                                                \\
+         & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T}(\X \bta + \eps)\right]                                    \\
+         & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \X \bta + \left(\X^{T} \X\right)^{-1} \X^{T} \eps \right] \\
+         & = \bta
+    \end{align*}
+
+\end{proof}
 Moreover, we want to take a look at the estimator's variance. For this purpose we will use the covariance matrix. Let \(U, V \in \R^p\), recall that the covariance matrix is defined as
 \[
     \cov (U, V) := \E \left[ \left( U - \E (U) \right) \left( V - \E (V) \right)^T \right] \in \mathcal{M}_{p \times p}(\R)
 \]
-where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance between \( U_i \) and \( V_j\). In the particular case \( U = V \), the diagonal of the covariance matrix is nothing else than the variance of \( U \),that is
+where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance between \( U_i \) and \( V_j\). In the particular case \( U = V \), the diagonal of the covariance matrix is nothing else than the variance of \( U \), that is:
 \[
     \var (U)_i = \cov (U, U)_{ii} \quad i = 1, \ldots, p
 \]
-Therefore the variance of \(\btahat\) is given by
-\begin{align*}
-    \var(\btahat)
-     & =\var \left[\left(\X^T \X\right)^{-1} \X^T \Y\right]                                  \\
-     & =\left(\X^T \X\right)^{-1} \X^T \var(\Y)\left[\left(\X^T \X\right)^{-1} \X^T\right]^T \\
-     & =\sigma^{2}\left(\X^T \X\right)^{-1} \X^T \X\left(\X^T \X\right)^{-1}                 \\
-     & =\sigma^{2}\left(\X^T \X\right)^{-1}
-\end{align*}
+\begin{proposition}
+    For \( \, i, j = 1, \ldots, p\), we have that:
+    \begin{enumerate}[label=(\roman*)]
+        \item \(\cov (\btahat_i, \btahat_j) = \sgm^{2} \left[ \left( \X^T \X \right)^{-1} \right]_{ij}\)
+        \item \(\var (\btahat_i) = \sgm^{2} \left[ \left( \X^T \X \right)^{-1} \right]_{ii}\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+
+        \item One can note that\begin{align*}
+                  \cov(\btahat, \btahat)
+                   & = \var \left[ \underbrace{\left(\X^T \X\right)^{-1} \X^T}_{\text{constant}} \Y\right]                               \\
+                   & = \left(\X^T \X\right)^{-1} \X^T \underbrace{\var(\Y)}_{= \sgm^2 I} \left[\left( \X^T \X \right)^{-1} \X^T\right]^T \\
+                   & = \sgm^{2}\left(\X^T \X\right)^{-1} \X^T \X\left(\X^T \X\right)^{-1}                                                \\
+                   & = \sgm^{2}\left(\X^T \X\right)^{-1}
+              \end{align*}
+        \item This is a direct consequence of the first point.
+    \end{enumerate}
+\end{proof}
 
 Now that we confirmed the above properties of \( \btahat \), we are interested in estimating the quality of our prediction. The residuals can help us do that.
 \begin{definition}[Residuals]
@@ -104,15 +122,33 @@ Now that we confirmed the above properties of \( \btahat \), we are interested i
     \]
 \end{definition}
 
+Building up from the residuals, we want to be able to estimate the value of \(\sgm^2\). We will develop such an estimator from the residual sum of squares.
+
+\begin{definition}
+    We defne the \textbf{residual sum of squares} \(\rss\) as follows
+    \[
+        \rss = \| \Y - \hat{\Y} \|_2^2 = \| \eps \|_2^2
+    \]
+\end{definition}
+
+The residual sum of squares can be rewritten as follows:
+
+\begin{align*}
+    \rss
+     & = \| \eps \|_2^2 \\
+     & = \eps^T \eps \\
+     & = \left( \Y - \X \btahat \right)^T \left(\Y - \X \btahat  \right) \\
+     & = \Y^T \Y - \btahat^T \X^T \Y - \Y^T \X \btahat + \btahat^T \X^T \X \btahat \\
+\end{align*}
+
 We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
 
 \begin{definition}[Prediction error]
     For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
     \[
-        \| X (\btahat - \bta) \|_2^2
+        \| \X \btahat - \X \bta \|_2^2
     \]
 \end{definition}
-
 
 
 
