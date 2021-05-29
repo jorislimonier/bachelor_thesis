@@ -41,28 +41,35 @@ Instead of seeing each observation individually we can deal with all of them tog
 \end{definition}
 
 \section{The least squares method}
+\subsection{Estimation of the model parameters}
 
-We define the objective function \( S(\bta) \) as follows
-\begin{equation}
-    \label{eqn: least squares objective function}
-    S(\bta) := \eps^{T} \eps = (\Y-\X \bta)^{T}(\Y-\X \bta)
-\end{equation}
-which may be rewritten as
+The least squares method consists of finding a vector minimizing a function. We call that function the objective function and we define it as follows.
+
+\begin{definition}
+    We define the \textbf{objective function} \( S \) as follows
+    \begin{equation}
+        \label{eqn: least squares objective function}
+        S(\bta) := \eps^{T} \eps = \| \Y-\X \bta \|_2^2
+    \end{equation}
+\end{definition}
+We may rewrite the objective function as
 \begin{align*}
-    S(\bta) & = (\Y - \X \bta)^{T} (\Y - \X \bta)                             \\
-            & = \Y^T \Y - \Y^T \X \bta - \bta^T \X^T \Y + \bta^T \X^T \X \bta \\
-            & = \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta              \\
+    S(\bta)
+     & = \| \Y-\X \bta \|_2^2                                          \\
+     & = (\Y - \X \bta)^{T} (\Y - \X \bta)                             \\
+     & = \Y^T \Y - \Y^T \X \bta - \bta^T \X^T \Y + \bta^T \X^T \X \bta \\
+     & = \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta              \\
 \end{align*}
-The least squares method aims at finding the vector $\btahat$ minimizing \( S \), that is
+As mentioned previsouly, the least squares method aims at finding the vector $\btahat$ minimizing \( S \), that is
 \[
     \btahat := \arg \min_{\bta} S(\bta)
 \]
 We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and setting the result to 0.
 \begin{align}
-             & \frac{\partial}{\partial \bta} S(\btahat) = 0 \nonumber                                                                  \\
-    \implies & \frac{\partial}{\partial \btahat} \left( \Y^T \Y - 2 \btahat^T \X^T \Y + \btahat^T \X^T \X \btahat \right) = 0 \nonumber \\
+             & \frac{\partial}{\partial \bta} S(\bta) \Big|_{\bta = \btahat} = 0 \nonumber                                              \\
+    \implies & \frac{\partial}{\partial \bta} \left( \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta \right)\Big|_{\bta = \btahat} = 0 \nonumber \\
     \implies & - 2 \X^T \Y + 2 \X^T \X \btahat = 0 \nonumber                                                                            \\
-    \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations}
+    \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations} \tag{LSNE}
 \end{align}
 where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations.
 
@@ -122,33 +129,50 @@ Now that we confirmed the above properties of \( \btahat \), we are interested i
     \]
 \end{definition}
 
-Building up from the residuals, we want to be able to estimate the value of \(\sgm^2\). We will develop such an estimator from the residual sum of squares.
+Building up from the residuals, we would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
 
 \begin{definition}
-    We defne the \textbf{residual sum of squares} \(\rss\) as follows
+    For a given set of observations \(\Y\), the \textbf{prediction error} (also called \textbf{residual sum of squares}) is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
     \[
-        \rss = \| \Y - \hat{\Y} \|_2^2 = \| \eps \|_2^2
+        \prederr = \| \Y - \hat{\Y} \|_2^2 = \| \eps \|_2^2
     \]
 \end{definition}
 
-The residual sum of squares can be rewritten as follows:
+
+The prediction error can be rewritten as follows:
 
 \begin{align*}
-    \rss
-     & = \| \eps \|_2^2 \\
-     & = \eps^T \eps \\
-     & = \left( \Y - \X \btahat \right)^T \left(\Y - \X \btahat  \right) \\
-     & = \Y^T \Y - \btahat^T \X^T \Y - \Y^T \X \btahat + \btahat^T \X^T \X \btahat \\
+    \prederr
+     & = \| \eps \|_2^2                                                                     \\
+     & = \eps^T \eps                                                                        \\
+     & = \left( \Y - \X \btahat \right)^T \left(\Y - \X \btahat  \right)                    \\
+     & = \Y^T \Y - \btahat^T \X^T \Y - \Y^T \X \btahat + \btahat^T \X^T \X \btahat          \\
+     & = \Y^T \Y - 2 \btahat^T \X^T \Y + \btahat^T \underbrace{\X^T \X \btahat}_{= \X^T \Y} \\
+     & = \Y^T \Y - \btahat^T \X^T \Y                                                        \\
 \end{align*}
 
-We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
+% We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
 
-\begin{definition}[Prediction error]
-    For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
-    \[
-        \| \X \btahat - \X \bta \|_2^2
-    \]
-\end{definition}
+% \begin{definition}[Prediction error]
+%     For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
+%     \[
+%         \| \X \btahat - \X \bta \|_2^2
+%     \]
+% \end{definition}
 
-
-
+\subsection{Maximum-likelihood estimation}
+Let the error vector \(\eps\) be normally and independently distributed with constant variance \(\sgm^2\) (in other words, \(\eps\) is \(\mathscr{N}(0, \sgm^2 I)\)). Then the maximum-likelihood estimation model is given by
+\[
+    \Y = \X \bta + \eps
+\]
+where each component of the error vector has density function:
+\[
+    f \left(\eps_{i}\right) = \frac{1}{\sgm \sqrt{2 \pi}} \exp \left(-\frac{1}{2 \sgm^{2}} \eps_{i}^{2}\right), \quad i = 1, \ldots, n
+\]
+Subsequently, the likelihood function is the joint density of \(\eps_1, \ldots, \eps_n\), therefore it is given by
+\begin{align*}
+    L\left({\eps}, \bta, \sgm^{2}\right)
+     & = \prod_{i=1}^{n} f\left(\eps_{i}\right)                                                                        \\
+     & = \left( \frac{1}{\sqrt{2 \pi} \sgm} \right)^n \exp \left(-\frac{1}{2 \sgm^{2}} \sum_{i=1}^{n} \eps_i^2 \right) \\
+     & = \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} \eps^T \eps\right)                        \\
+\end{align*}
