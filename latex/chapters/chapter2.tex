@@ -49,7 +49,7 @@ The least squares method consists of finding a vector minimizing a function. We 
     We define the \textbf{objective function} \( S \) as follows
     \begin{equation}
         \label{eqn: least squares objective function}
-        S(\bta) := \eps^{T} \eps = \| \Y-\X \bta \|_2^2
+        S(\bta) := \| \Y-\X \bta \|_2^2 = \eps^{T} \eps
     \end{equation}
 \end{definition}
 We may rewrite the objective function as
@@ -66,9 +66,9 @@ As mentioned previsouly, the least squares method aims at finding the vector $\b
 \]
 We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and setting the result to 0.
 \begin{align}
-             & \frac{\partial}{\partial \bta} S(\bta) \Big|_{\bta = \btahat} = 0 \nonumber                                              \\
+             & \frac{\partial}{\partial \bta} S(\bta) \Big|_{\bta = \btahat} = 0 \nonumber                                                        \\
     \implies & \frac{\partial}{\partial \bta} \left( \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta \right)\Big|_{\bta = \btahat} = 0 \nonumber \\
-    \implies & - 2 \X^T \Y + 2 \X^T \X \btahat = 0 \nonumber                                                                            \\
+    \implies & - 2 \X^T \Y + 2 \X^T \X \btahat = 0 \nonumber                                                                                      \\
     \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations} \tag{LSNE}
 \end{align}
 where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations.
@@ -78,7 +78,7 @@ If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares no
     \label{eqn: least squares estimator}
     \btahat = (\X^T \X)^{-1} \X^T \Y
 \end{equation}
-Now, we can verify that our estimator has some fundamental properties.
+Now, we can take a look at a few properties of our estimator, namely the expected value and the variance.
 \begin{proposition}
     \(\btahat\) is unbiased, that is $\E [\btahat] = \bta$.
 \end{proposition}
@@ -92,7 +92,7 @@ Now, we can verify that our estimator has some fundamental properties.
     \end{align*}
 
 \end{proof}
-Moreover, we want to take a look at the estimator's variance. For this purpose we will use the covariance matrix. Let \(U, V \in \R^p\), recall that the covariance matrix is defined as
+Moreover, we want to study the estimator's variance. For this purpose we will use the covariance matrix. Let \(U, V \in \R^p\), recall that the covariance matrix is defined as
 \[
     \cov (U, V) := \E \left[ \left( U - \E (U) \right) \left( V - \E (V) \right)^T \right] \in \mathcal{M}_{p \times p}(\R)
 \]
@@ -121,26 +121,21 @@ where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance 
     \end{enumerate}
 \end{proof}
 
-Now that we confirmed the above properties of \( \btahat \), we are interested in estimating the quality of our prediction. The residuals can help us do that.
+Now that we confirmed that \( \btahat \) does indeed exhibit the above properties, we are interested in estimating the quality of our prediction. The residuals can help us do that.
 \begin{definition}[Residuals]
     For a given set of observations \(\Y\), the \textbf{residuals} (or \textbf{vector of residuals}) is the difference between the prediction of our model and the observed value, that is
     \[
         X (\btahat - \bta) \in \R^n
     \]
 \end{definition}
-
 Building up from the residuals, we would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
-
 \begin{definition}
     For a given set of observations \(\Y\), the \textbf{prediction error} (also called \textbf{residual sum of squares}) is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
     \[
         \prederr = \| \Y - \hat{\Y} \|_2^2 = \| \eps \|_2^2
     \]
 \end{definition}
-
-
 The prediction error can be rewritten as follows:
-
 \begin{align*}
     \prederr
      & = \| \eps \|_2^2                                                                     \\
@@ -171,8 +166,25 @@ where each component of the error vector has density function:
 \]
 Subsequently, the likelihood function is the joint density of \(\eps_1, \ldots, \eps_n\), therefore it is given by
 \begin{align*}
-    L\left({\eps}, \bta, \sgm^{2}\right)
+    L\left(\eps, \bta, \sgm^{2}\right)
      & = \prod_{i=1}^{n} f\left(\eps_{i}\right)                                                                        \\
      & = \left( \frac{1}{\sqrt{2 \pi} \sgm} \right)^n \exp \left(-\frac{1}{2 \sgm^{2}} \sum_{i=1}^{n} \eps_i^2 \right) \\
      & = \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} \eps^T \eps\right)                        \\
 \end{align*}
+which, using that \(\eps = \Y - \X \bta\), we may rewrite as
+\[
+    L\left(\Y, \X, \bta, \sgm^{2}\right) = \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )\right)
+\]
+
+We can apply the logarithm function on both sides of the above equation in order to cancel out the exponential and make our lives simpler for the rest of the analysis. Since the logarithm is an increasing function, it will not disturb the search for the argument maximizing \(L\). We call the result of the operation the log-likelihood.
+\begin{align*}
+      & \ln \left[ L\left(\Y, \X, \bta, \sgm^{2}\right) \right]                                                                           \\
+    = & \ln \left[ \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )\right) \right] \\
+    = & - \ln [ (2 \pi)^{n / 2} \sgm^{n} ] - \frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )                                     \\
+    = & - \frac{n}{2} \ln(2 \pi) -n \ln(\sgm) - \frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )                                  \\
+\end{align*}
+
+If \(\sgm\) is fixed, we can only let \(( \Y - \X \bta )^T ( \Y - \X \bta )\) vary in order to maximmize the log-likelihood. We get that the maximum-likelihood estimator of \(\sgm^2\) is
+\[
+    \tilde \sgm^2 = \frac{( \Y - \X \bta )^T ( \Y - \X \bta )}{n}
+\]
