@@ -1,5 +1,7 @@
 \chapter{Classical theory of Linear Regression}
 
+Part of this chapter follows \textit{Introduction to Linear Regression Analysis}, fifth edition by Douglas C. Montgomery, Elizabeth A. Peck and G. Geoffrey Vining.
+
 \section{Linear models}
 
 We consider the setting of having a sample of $n$ observations
@@ -23,7 +25,7 @@ Instead of seeing each observation individually we can deal with all of them tog
     \Y = \X \bta + \eps
 \end{equation}
 
-\begin{definition}\
+\begin{definition}
     \begin{enumerate}[label=(\alph*)]
         \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$. $\X$ consists of stacking the vectors relative to each observation inside of a matrix
               \[
@@ -184,7 +186,7 @@ We can apply the logarithm function on both sides of the above equation in order
     = & - \frac{n}{2} \ln(2 \pi) -n \ln(\sgm) - \frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )                                  \\
 \end{align*}
 
-If \(\sgm\) is fixed, we can only let \(( \Y - \X \bta )^T ( \Y - \X \bta )\) vary in order to maximmize the log-likelihood. We get that the maximum-likelihood estimator of \(\sgm^2\) is
+Since \(\sgm\) is fixed, we can only let \(( \Y - \X \bta )^T ( \Y - \X \bta )\) vary. Naturally, we need to minimize it in order to maximize the log-likelihood. We already went through this procedure in \eqref{eqn: least-squares normal equations} and obtained in equation \eqref{eqn: least squares estimator} that the result is \(\btahat = (\X^T \X)^{-1} \X^T \Y\). Thus the maximum-likelihood estimator of \(\sgm^2\) is
 \[
-    \tilde \sgm^2 = \frac{( \Y - \X \bta )^T ( \Y - \X \bta )}{n}
+    \tilde \sgm^2 = \frac{( \Y - \X \btahat )^T ( \Y - \X \btahat )}{n}
 \]
