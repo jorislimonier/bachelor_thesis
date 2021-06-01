@@ -1,5 +1,5 @@
 \chapter{Theory for LASSO in high dimensions}
-
+Part of this chapter follows \textit{Statistics for High-Dimensional Data} by Peter Bühlmann and Sara van de Geer.
 
 \section{Assuming the truth is linear}
 In this section, we assume that there exists some ``true value" that would make the parameter \(\bta\) fit the observations to the predictions perfectly. We call this ideal parameter vector \(\bta^0\). However, we work with an underdetermined system: there are more variables than equations, or in our context, there are more parameters than observations \((\ie p>n)\).
@@ -11,17 +11,20 @@ We define $\btahat$ as follows
 \end{equation}
 
 \begin{lemma}[Basic Inequality]
-    $$\frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda \| \bta^{0} \|_{1}$$
+    \label{lemma: basic inequality}
+    \[
+        \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda \| \bta^{0} \|_{1}
+    \]
 \end{lemma}
 \begin{proof}
     By definition of $\btahat$, we have that
-    $$
+    \[
         \forall \bta \quad \frac{\| \Y-\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
-    $$
+    \]
     In particular for $\bta = \bta^0$ we have
-    $$
+    \[
         \frac{\| \Y-\X \btahat \|_{2}^{2}}{n}+\lambda\| \btahat \|_{1} \leq \frac{ \| \Y-\X \bta^0\|_{2}^{2}}{n}+\lambda \| \bta^0\|_{1}
-    $$
+    \]
     We now replace $\Y$ using equation \eqref{eqn: linear model (matrix)}:
     \begin{align*}
                  & \frac{\|\Y  - \X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat\|_{1} \leq \frac{\| \Y  - \X \bta^0 \|_2^2}{n}+\lambda\|\bta^{0}\|_{1}                                                     \\
@@ -38,24 +41,28 @@ We define $\btahat$ as follows
     \end{align*}
     This completes the proof.
 \end{proof}
-
 We define \(\mathscr{T}\) as follows
-$$\mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}$$
-% \(\mathscr{T}\) gives us an upper bound on the 
+\[
+    \mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}
+\]
+\(\mathscr{T}\) gives us a useful upper bound if we can find a value of \(\lambda_0\) such that \(\mathscr{T}\) has probability close to 1. Lemma \ref{lemma: value for lambda_0} will give us such an upper bound.
 
-\begin{lemma}[Lemma 6.2.]
-    Suppose \(\forall j = 1, \ldots, p, \sgmhat_j^2 = 1 \) and for all $t > 0$ and
-    $$\lambda_{0}:=2 \sgm \sqrt{\frac{t^{2}+2 \log p}{n}}$$
+\begin{lemma}
+    \label{lemma: value for lambda_0}
+    Assume \(\forall \; j = 1, \ldots, p, \; \sgmhat_j^2 = 1 \) and for all $t > 0$ and let
+    \[
+        \lambda_{0}:=2 \sgm \sqrt{\frac{t^{2}+2 \log p}{n}}
+    \]
     we have
-    $$\mathbb{P}(\mathscr{T}) \geq 1-2 \exp \left[-t^{2} / 2\right]$$
+    \[
+        \mathbb{P}(\mathscr{T}) \geq 1-2 \exp \left[ \frac{-t^{2}}{2} \right]
+    \]
 \end{lemma}
 \begin{proof}
     We define
-
-    $$
+    \[
         V_{j} := \frac{\varepsilon^{T} \mathbf{X}^{(j)}}{\sqrt{n \sgm^{2}}}
-    $$
-
+    \]
     Then we have
     \begin{align}
         \nonumber
@@ -85,9 +92,9 @@ $$\mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} 
                                 & = \frac{1}{\zeta\sqrt{2\pi}} e^{-\zeta^2/2}                                 \\
     \end{align*}
     We note that $p \geq 2 \implies \zeta \sqrt{2 \pi} \geq 1$ therefore
-    $$
+    \[
         \mathbb{P}(V_j > \zeta) <  e^{-\zeta^2/2}
-    $$
+    \]
     Moreover by symmetry of the $\mathscr{N} (0,1)$ distribution,
 
     \begin{align*}
@@ -103,15 +110,54 @@ $$\mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} 
     \end{align*}
 \end{proof}
 
-\begin{corollary}[Consistency of the LASSO]
-    Assume $\sgm^2 = 1$ for all $j$. We define the regularization parameter as
-    $$\lambda = 4 \sgmhat^2 \sqrt{\frac{t^2 + 2 \log p}{n}}$$
-    where $\sgmhat$ is some estimator of $\sgm$. \\
-    Then with probability at least $1 - \alpha$, where $\alpha := 2 \exp(-t^2/2) + \P (\sgmhat \leq \sgm)$ we have
-    $$2 \frac{\| \X (\btahat - \bta^0)\|_2^2}{n} \leq 3 \lambda \| \bta^0 \|_1$$
+\begin{corollary}[Consistency of the LASSO] % Corollary 6.1
+    Assume $\sgmhat^2_j = 1$ for all \(j = 1, \ldots, p\). For some \(t > 0\), we define the regularization parameter as
+    \[
+        \lambda := 4 \sgmhat \sqrt{\frac{t^2 + 2 \log p}{n}}
+    \]
+    where $\sgmhat$ is an estimator of $\sgm$. \\
+    Then with probability at least $1 - \alpha$, where
+    \[
+        \alpha := 2 \exp \left[ \frac{- t^{2}}{2} \right] + \P (\{\sgmhat \leq \sgm\})
+    \]
+    we have
+    \[
+        2 \frac{\| \X (\btahat - \bta^0)\|_2^2}{n} \leq 3 \lambda \| \bta^0 \|_1
+    \]
 \end{corollary}
+\begin{proof}
+    Recall that we defined
+    \[
+        \mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}
+    \]
+    and lemma \ref{lemma: value for lambda_0}, we know that
+    \[
+        \lambda_{0} = 2 \sgm \sqrt{\frac{t^{2}+2 \log p}{n}} \implies \mathbb{P}(\mathscr{T}) \geq 1-2 \exp \left[ \frac{-t^{2}}{2} \right]
+    \]
+    So if \(\sgmhat > \sgm\), replacing the latter by the former will result in a weaker statement, which therefore still holds, \ie
+    \[
+        \lambda_{0} = 2 \sgmhat \sqrt{\frac{t^{2}+2 \log p}{n}} \implies \mathbb{P}(\mathscr{T}) \geq 1-2 \exp \left[ \frac{-t^{2}}{2} \right]
+    \]
+    Now if we are on \(\T\), starting with the basic inequality \ref{lemma: basic inequality}:
+    \begin{align*}
+                 & \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + 2\lambda_0 \|\btahat\|_{1} \leq 2 \frac{\eps^{T} \X (\btahat-\bta^{0})}{n} + 2\lambda_0 \| \bta^{0} \|_{1}                                             \\
+        \implies & \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} \leq \underbrace{2 \frac{\eps^{T} \X (\btahat - \bta^{0})}{n}}_{\text{bounded on } \T} + 2 \lambda_0 \left( \| \bta^{0} \|_{1} - \|\btahat\|_{1} \right) \\
+        \implies & \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} \leq \lambda_0 ( \underbrace{\|\btahat - \bta^{0} \|_1 - \|\btahat\|_{1}}_{\leq \| \bta^{0} \|_{1}} + 2 \| \bta^{0} \|_{1} )                             \\
+        \implies & \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} \leq 3 \lambda_0 \| \bta^{0} \|_{1}
+    \end{align*}
+    Therefore with \(\lambda = 2 \lambda_0 = 4 \sgmhat \sqrt{\frac{t^2 + 2 \log p}{n}}\), we obtain the desired result. This occurs if we are on \( \T \) and \(\sgmhat > \sgm\), which means that it doesn't occur with probability
+    \begin{align*}
+         & \P(\neg \T \cup \{ \sgmhat \leq \sgm \})                                                          \\
+         & = \P(\neg \T) + \P(\{ \sgmhat \leq \sgm \}) - \P(\neg \T \cap \{ \sgmhat \leq \sgm \})            \\
+         & \leq \P(\neg \T) + \P(\{ \sgmhat \leq \sgm \})                                                    \\
+         & = 1 - \P(\T) + \P(\{ \sgmhat \leq \sgm \})                                                        \\
+         & \leq 1 - \left( 1 - 2 \exp \left[ \frac{- t^{2}}{2} \right] \right) + \P(\{ \sgmhat \leq \sgm \}) \\
+         & = 2 \exp \left[ \frac{- t^{2}}{2} \right] + \P(\{ \sgmhat \leq \sgm \})
+    \end{align*}
+    which concludes the proof.
+\end{proof}
 
-\begin{lemma}[Lemma 6.3.]
+\begin{lemma} % Lemma 6.3.
     \label{eqn: lemma 6.3.}
     We have on $\mathscr{T}$, with $\lambda \geq 2 \lambda_{0}$,
     \begin{equation*}
@@ -120,16 +166,16 @@ $$\mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} 
 \end{lemma}
 \begin{proof}
     We start with the Basic Inequality
-    $$
+    \[
         \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda\|\bta^{0}\|_{1}
-    $$
+    \]
     Now since we are on $\mathscr{T}$ and since $2 \lambda_0 \leq \lambda$
-    $$
+    \[
         \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq \lambda_0 \|\btahat-\bta^{0}\|_1 + \lambda\|\bta^{0}\|_{1}
-    $$
-    $$
+    \]
+    \[
         2 \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n}+2 \lambda\|\btahat\|_{1} \leq \lambda \|\btahat-\bta^{0} \|_{1}+2 \lambda \|\bta^{0} \|_{1}
-    $$
+    \]
     Let $\bta_{j, S}:=\bta_{j} 1\{j \in S\}$. We use the triangle inequality on the left hand side
     \begin{align*}
         \|\btahat\|_{1}
