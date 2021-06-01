@@ -1,25 +1,27 @@
 \chapter{Classical theory of Linear Regression}
+\label{chapter: classical theory of linear regression}
 
-Part of this chapter follows \textit{Introduction to Linear Regression Analysis}, fifth edition by Douglas C. Montgomery, Elizabeth A. Peck and G. Geoffrey Vining.
+This chapter introduces the reader to the basics of Linear Regression. In section \ref{section: linear models}, we start by defining the problem and propose a framework to solve it. Section \ref{section: least-squares} presents the least-squares method step by step, determining the estimator and proving fundamental results on it. Finally, section \ref{section: maximum likelihood} builds up from the concepts introduced with the least squares method in order to teach the maximum likelihood estimation, another method to estimate the parameters of a linear model.
+
+Part of this chapter follows the book \textit{Introduction to Linear Regression Analysis}, fifth edition by Douglas C. Montgomery, Elizabeth A. Peck and G. Geoffrey Vining.
 
 \section{Linear models}
+\label{section: linear models}
 
-We consider the setting of having a sample of $n$ observations
+We consider the setting of having a sample of $n$ observations, where each observation consists of \(p\) components. The observations are
 \[
-    (\X_1, \Y_1), \ldots ,(\X_n, \Y_n)
+    (\X_1, \Y_1), \; \ldots , \;(\X_n, \Y_n)
 \]
-where $X_i \in \mathscr{X} \subseteq \R^p, \; i = 1, \ldots, n$ and $Y_i \in \mathscr{Y} \subseteq \R, \; i = 1, \ldots, n$.
+where \(\forall \; i = 1, \ldots, n\), we have \(X_i \in \mathscr{X} \subseteq \R^p\), and \(Y_i \in \mathscr{Y} \subseteq \R\).
 
 \begin{definition}[The linear model]
-    The relationship between an observation $\X_i \in \mathscr{X}$ and its outcome $\Y_i \in \mathscr{Y}$ can be established by a linear model, that is
+    The relationship between an observation $\X_i \in \mathscr{X}$ and its outcome $\Y_i \in \mathscr{Y}$ can be established by a linear model. Such a model is of the form
     \begin{equation}
         i = 1, \ldots, n \qquad \Y_{i} = \sum_{j=1}^{p} \bta_{j} \X_{i}^{(j)} + \eps_{i}
     \end{equation}
     where \(\eps_1, \ldots, \eps_n\) are independent and identically distributed (i.i.d.). Moreover, \(\forall \, i = 1, \ldots, n, \) we have that \( \E [\eps_i] = 0\) and each \(\eps_i\) is independent of all of the \( X_j, \; j=1, \ldots, n \).
 \end{definition}
-
-Instead of seeing each observation individually we can deal with all of them together by expressing the linear model in matrix notation
-
+Instead of considering each observation individually we can deal with all of them together by expressing the linear model with matrices. We use the following notation:
 \begin{equation}
     \label{eqn: linear model (matrix)}
     \Y = \X \bta + \eps
@@ -27,7 +29,7 @@ Instead of seeing each observation individually we can deal with all of them tog
 
 \begin{definition}
     \begin{enumerate}[label=(\alph*)]
-        \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$. $\X$ consists of stacking the vectors relative to each observation inside of a matrix
+        \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$. $\X$ consists of ``stacking" the vectors relative to each observation inside of a matrix
               \[
                   X =
                   \begin{bmatrix}
@@ -36,18 +38,19 @@ Instead of seeing each observation individually we can deal with all of them tog
                       \text{---} & X_n^T  & \text{---} \\
                   \end{bmatrix}
               \]
-        \item $\bta$ is called the \textbf{parameter vector}. It has dimension $p \times 1$.
-        \item $\eps$ is called the \textbf{error vector}. It has dimension $n \times 1$.
-        \item $\Y$ is called the \textbf{response vector}. It has dimension $n \times 1$.
+        \item $\bta$ is called the \textbf{parameter vector}. It has dimension $p \times 1$. \(\bta\) is the vector we want to estimate.
+        \item $\eps$ is called the \textbf{error vector}. It has dimension $n \times 1$. \(\eps\) represents the difference between the linear model and the observations.
+        \item $\Y$ is called the \textbf{response vector}. It has dimension $n \times 1$. \(\Y\) can be seen as the outcome of the observations.
     \end{enumerate}
 \end{definition}
 
 % add some preparation here
 
 \section{The least squares method}
-\subsection{Estimation of the model parameters}
+\label{section: least-squares}
+% \subsection{Estimation of the model parameters}
 
-The least squares method consists of finding a vector minimizing a function. We call that function the objective function and we define it as follows.
+The least squares method consists of finding a vector minimizing a function called the objective function. This function represents the distance between the observed data and the linear model. The smaller the objective function, the better our model approximates the observations.
 
 \begin{definition}
     We define the \textbf{objective function} \( S \) as follows
@@ -56,6 +59,7 @@ The least squares method consists of finding a vector minimizing a function. We 
         S(\bta) := \| \Y-\X \bta \|_2^2 = \eps^{T} \eps
     \end{equation}
 \end{definition}
+
 We may rewrite the objective function as
 \begin{align*}
     S(\bta)
@@ -64,7 +68,7 @@ We may rewrite the objective function as
      & = \Y^T \Y - \Y^T \X \bta - \bta^T \X^T \Y + \bta^T \X^T \X \bta \\
      & = \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta              \\
 \end{align*}
-As mentioned previsouly, the least squares method aims at finding the vector $\btahat$ minimizing \( S \), that is
+The goal of the least squares method is to find the vector $\btahat$ minimizing the objective function \( S \). In other words, we want to find
 \[
     \btahat := \arg \min_{\bta} S(\bta)
 \]
@@ -75,16 +79,16 @@ We find \( \btahat \) by differentiating \( S \) with respect to $\bta$ and sett
     \implies & - 2 \X^T \Y + 2 \X^T \X \btahat = 0 \nonumber                                                                                      \\
     \implies & \X^T \X \btahat = \X^T \Y \label{eqn: least-squares normal equations} \tag{LSNE}
 \end{align}
-where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations.
-
-If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares normal equations} yields that our least squares estimator \( \btahat \) is given by
+where equation \eqref{eqn: least-squares normal equations} is called the least squares normal equations. If we assume that \( \X^T \X \) is invertible, then \eqref{eqn: least-squares normal equations} yields
 \begin{equation}
     \label{eqn: least squares estimator}
     \btahat = (\X^T \X)^{-1} \X^T \Y
 \end{equation}
-Now, we can take a look at a few properties of our estimator, namely the expected value and the variance.
+
+So far we found a way to compute the least square estimator \(\btahat\). Now we would like to take a look at a few of its properties, namely the expected value and the variance. \\
+First of all we show that \(\btahat\) is unbiased, that is $\E [\btahat] = \bta$.
 \begin{proposition}
-    \(\btahat\) is unbiased, that is $\E [\btahat] = \bta$.
+    The least squares estimator \(\btahat\) is unbiased.
 \end{proposition}
 \begin{proof}
     \begin{align*}
@@ -92,15 +96,17 @@ Now, we can take a look at a few properties of our estimator, namely the expecte
          & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \Y \right]                                                \\
          & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T}(\X \bta + \eps)\right]                                    \\
          & = \E \left[ \left(\X^{T} \X \right)^{-1} \X^{T} \X \bta + \left(\X^{T} \X\right)^{-1} \X^{T} \eps \right] \\
+         & = \E \left[ \bta \right] + \E [\eps]                                                                      \\
          & = \bta
     \end{align*}
+    where the transition to the last line occurs because \(\eps\) is centered, therefore it has null expected value, and \(\bta\) is constant, hence equal to its expected value. This completes the proof.
 
 \end{proof}
-Moreover, we want to study the estimator's variance. For this purpose we will use the covariance matrix. Let \(U, V \in \R^p\), recall that the covariance matrix is defined as
+Subsequently, we want to study the estimator's variance. For this purpose we will use the covariance matrix. Let \(U, V \in \R^p\), recall that the covariance matrix is defined as
 \[
     \cov (U, V) := \E \left[ \left( U - \E (U) \right) \left( V - \E (V) \right)^T \right] \in \mathcal{M}_{p \times p}(\R)
 \]
-where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance between \( U_i \) and \( V_j\). In the particular case \( U = V \), the diagonal of the covariance matrix is nothing else than the variance of \( U \), that is:
+where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance between \( U_i \) and \( V_j\). In the particular case where \( U = V \), the diagonal of the covariance matrix is nothing else than the variance of \( U \), that is:
 \[
     \var (U)_i = \cov (U, U)_{ii} \quad i = 1, \ldots, p
 \]
@@ -125,9 +131,9 @@ where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance 
     \end{enumerate}
 \end{proof}
 
-Now that we confirmed that \( \btahat \) does indeed exhibit the above properties, we are interested in estimating the quality of our prediction. The residuals can help us do that.
+We have now confirmed that \( \btahat \) is unbiased and we found an expression for its variance. Now we move onto estimating the quality of our prediction. The residuals can help us do that.
 \begin{definition}[Residuals]
-    For a given set of observations \(\Y\), the \textbf{residuals} (or \textbf{vector of residuals}) is the difference between the prediction of our model and the observed value, that is
+    For a given set of observations \(\Y\), the \textbf{residuals} (also called \textbf{vector of residuals}) is the difference between the model's prediction and the observed value, that is
     \[
         X (\btahat - \bta) \in \R^n
     \]
@@ -149,18 +155,12 @@ The prediction error can be rewritten as follows:
      & = \Y^T \Y - 2 \btahat^T \X^T \Y + \btahat^T \underbrace{\X^T \X \btahat}_{= \X^T \Y} \\
      & = \Y^T \Y - \btahat^T \X^T \Y                                                        \\
 \end{align*}
+We will make further use of the prediction error in chapter \ref{chapter: LASSO}. For now, let us introduce another method to estimate parameters: the maximum likelihood estimation.
 
-% We would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
-
-% \begin{definition}[Prediction error]
-%     For a given set of observations \(\Y\), the \textbf{prediction error} is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
-%     \[
-%         \| \X \btahat - \X \bta \|_2^2
-%     \]
-% \end{definition}
-
-\subsection{Maximum-likelihood estimation}
-Let the error vector \(\eps\) be normally and independently distributed with constant variance \(\sgm^2\) (in other words, \(\eps\) is \(\mathscr{N}(0, \sgm^2 I)\)). Then the maximum-likelihood estimation model is given by
+\section{Maximum likelihood estimation}
+\label{section: maximum likelihood}
+The maximum likelihood estimation has similarities with the least squares method  from the previous section. However, unlike the least squares method, the goal of the maximum likelihood estimation is to maximise a so-called likelihood function. Doing so makes the observed data most probable. \\
+As previously, we work with a normally and independently distributed error vector \(\eps\) with constant variance \(\sgm^2\), in other words, \(\eps\) is \(\mathscr{N}(0, \sgm^2 I)\). Then, the maximum-likelihood estimation model is given by
 \[
     \Y = \X \bta + \eps
 \]
@@ -175,20 +175,25 @@ Subsequently, the likelihood function is the joint density of \(\eps_1, \ldots, 
      & = \left( \frac{1}{\sqrt{2 \pi} \sgm} \right)^n \exp \left(-\frac{1}{2 \sgm^{2}} \sum_{i=1}^{n} \eps_i^2 \right) \\
      & = \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} \eps^T \eps\right)                        \\
 \end{align*}
-which, using that \(\eps = \Y - \X \bta\), we may rewrite as
+which, using that \(\eps = \Y - \X \bta\), we may rewrite as a function of \(\Y\) and \(\X\), rather than of \(\eps\). It also remains a function of \(\bta\) and \(\sgm^2\). Thus it becomes:
 \[
     L\left(\Y, \X, \bta, \sgm^{2}\right) = \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )\right)
 \]
-
-We can apply the logarithm function on both sides of the above equation in order to cancel out the exponential and make our lives simpler for the rest of the analysis. Since the logarithm is an increasing function, it will not disturb the search for the argument maximizing \(L\). We call the result of the operation the log-likelihood.
+We can apply the natural logarithm function on both sides of the above equation. Doing so cancels out the exponential and make our lives simpler for the rest of the analysis. Since the natural logarithm \(\ln: \R^{>0} \to \R\) is an increasing function, it will not disturb the search for the argument maximizing \(L\). We call the new function the log-likelihood function.
 \begin{align*}
       & \ln \left[ L\left(\Y, \X, \bta, \sgm^{2}\right) \right]                                                                           \\
     = & \ln \left[ \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )\right) \right] \\
     = & - \ln [ (2 \pi)^{n / 2} \sgm^{n} ] - \frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )                                     \\
     = & - \frac{n}{2} \ln(2 \pi) -n \ln(\sgm) - \frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )                                  \\
 \end{align*}
-
-Since \(\sgm\) is fixed, we can only let \(( \Y - \X \bta )^T ( \Y - \X \bta )\) vary. Naturally, we need to minimize it in order to maximize the log-likelihood. We already went through this procedure in \eqref{eqn: least-squares normal equations} and obtained in equation \eqref{eqn: least squares estimator} that the result is \(\btahat = (\X^T \X)^{-1} \X^T \Y\). Thus the maximum-likelihood estimator of \(\sgm^2\) is
+Now, with a fixed \(\sgm\), the only term that can vary is \(( \Y - \X \bta )^T ( \Y - \X \bta )\). One can easily notice that we need to minimize this term in order to maximize the log-likelihood function. We will not repeat this argument since we already went through it in equation \eqref{eqn: least-squares normal equations}. We had thereafter obtained in equation \eqref{eqn: least squares estimator} that, given that \(\X^T \X\) is invertible, the result is
+\[
+    \btahat = (\X^T \X)^{-1} \X^T \Y
+\]
+We inject this result in the above and we get that the maximum-likelihood estimator of \(\sgm^2\) is given by
 \[
     \tilde \sgm^2 = \frac{( \Y - \X \btahat )^T ( \Y - \X \btahat )}{n}
 \]
+
+In this chapter, we introduced the fundamentals of the classical theory of linear regression. First, we defined and introduced linear models. We saw that they give us a structure to work with observed data. Subsequently, we presented two major methods of the field of linear regression: the least squares method and the maximum likelihood estimation. The former aims at minimizing the squared euclidian distance between the observed data and the model's estimation. The latter considers a so-called maximum likelihood function (more precisely its natural logarithm) and maximizes it. The goal being to create a framework such that the observed data is the most probable outcome. \\
+Now we move onto chapter \ref{chapter: LASSO} where we study yet another method of linear regression analysis, namely LASSO. We will have the occasion to understand how it differs from the previous two techniques seen in chapter \ref{chapter: classical theory of linear regression}, what its strengths are and when to choose it over other methods.
