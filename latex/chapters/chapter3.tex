@@ -1,18 +1,30 @@
 \chapter{Theory for LASSO in high dimensions}
 \label{chapter: LASSO}
-Part of this chapter follows \textit{Statistics for High-Dimensional Data} by Peter Bühlmann and Sara van de Geer.
+In chapter \ref{chapter: classical theory of linear regression}, we considered square or almost-square systems (\(n \approx p\)). In this chapter however, we work with underdetermined systems, which means that we have few observations but each with many components. In fact, this difference may even be substantial and we will introduce general methods to deal with such cases. Several linear regresion methods exist in order to work for underdetermined systems but we will introduce only one, namely LASSO. Our exploration will consist of two parts. In the first one, we will work with the heuristic assumption that the underlying true model is linear. In the second part, we will acknowledge that the underlying true model is not linear, but we will argue and show that it can be well-approximated by a linear model, accounting for the additional nonlinear part. \\
+LASSO (Least Absolute Shrinkage and Selection Operator) is a linear regression method which takes into account the \(\ell_1\)-norm of the estimator \(\bta\) as a penalization parameter. LASSO aims at minimizing the following quantity over \(\bta\):
+\[
+    \frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1}
+\]
+Because of the \(\ell_1\) term, the model is able to indentify and select the relevant parameters, while the other parameters can be set to zero. This makes LASSO shine, in comparison to other (non-penalized) linear regression techniques, when there is a great number of parameters. \\
+Some parts of this chapter follow \textit{Statistics for High-Dimensional Data} by Peter Bühlmann and Sara van de Geer.
 
-\section{Assuming the truth is linear}
-In this section, we assume that there exists some ``true value" that would make the parameter \(\bta\) fit the observations to the predictions perfectly. We call this ideal parameter vector \(\bta^0\). However, we work with an underdetermined system: there are more variables than equations, or in our context, there are more parameters than observations \((\ie p>n)\).
-
-We define $\btahat$ as follows
+In this section, we assume that there exists some underlying ``true value" for the parameter \(\bta\) that would make the model ideally fit the observations to the predictions. We call this parameter vector \(\bta^0\). We want to be as close as possible from such a parameter. \\
+One of the roadblocks that prevents us from finding \(\bta^0\) is that we do not know which of the \(\bta_j\) are non-zero. Therefore, one of our goals is to identify the so-called \textit{active set}, which is the set of non-zero components of \(\bta^0\). We write it \(S_0\) and we define it as follows:
+\[
+    S_0 := \left\{ 1 \leq j \leq p : \bta_j^0 \neq 0 \right\}
+\]
+Let us also introduce the number of non-zero parameters \(s_0\). We call \(s_0\) the sparsity index of \(\bta^0\) and it is defined as the cardinality of \(S_0\), that is \(s_0 := |S_0|\). \\
+We must account for the fact that we do not know \(S_0\). Using a regularization parameter fulfills that purpose as it ensures that the components of our estimator will remain ``small''. Thus, keeping the results from chapter \ref{chapter: classical theory of linear regression} in mind, we define $\btahat$ as follows:
 \begin{equation}
     \label{eqn: beta hat (LASSO)}
     \btahat:=\arg \min _{\bta}\left\{ \frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1} \right\}
 \end{equation}
 
+\section{Assuming the truth is linear}
+We will build several results from the following lemma, which we logically call the Basic Inequality.
 \begin{lemma}[Basic Inequality]
     \label{lemma: basic inequality}
+    The following holds:
     \[
         \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda \| \bta^{0} \|_{1}
     \]
@@ -42,11 +54,28 @@ We define $\btahat$ as follows
     \end{align*}
     This completes the proof.
 \end{proof}
-We define \(\mathscr{T}\) as follows
+In the case of quadratic loss, we call the term
 \[
-    \mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}
+    \frac{2 \eps^T \X ( \btahat - \bta^0)}{n}
 \]
-\(\mathscr{T}\) gives us a useful upper bound if we can find a value of \(\lambda_0\) such that \(\mathscr{T}\) has probability close to 1. Lemma \ref{lemma: value for lambda_0} will give us such an upper bound.
+the empirical process. It depends on the measurement error, however we can easily bound it from above by replacing each component of \(\eps^T \X\) by the maximum over \(j = 1, \ldots, p\). We get \\
+\[
+    \frac{2 \eps^T \X ( \btahat - \bta^0)}{n} \leq \left( \max_{1 \leq j \leq p} 2 | \eps^T \X^{(j)}|\right) \| \btahat - \bta^0 \|_1
+\]
+Now let us define \(\T\) as follows:
+\[
+    \T := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}
+\]
+And in order to account for the random part of the problem, we assume that \(\lambda \geq 2 \lambda_0\). \\
+We also define the Gram matrix, scaled by \(1/n\), as follows:
+\[
+    \Sgmhat := \frac{\X^T \X}{n}
+\]
+and we write its diagonal elements as
+\[
+    \sgmhat_j := \Sgmhat_{jj}, \quad j = 1, \ldots, p
+\]
+\(\T\) gives us a useful upper bound if we can find a value of \(\lambda_0\) such that \(\mathscr{T}\) has probability close to 1. In Lemma \ref{lemma: value for lambda_0}, will find such an upper bound and show that \(\T\) has indeed probability close to 1.
 
 \begin{lemma}
     \label{lemma: value for lambda_0}
@@ -110,11 +139,11 @@ We define \(\mathscr{T}\) as follows
                                 & = 1 - 2 \exp \left[ \frac{- t^{2}}{2} \right]                      \\
     \end{align*}
 \end{proof}
-
+We extend lemma \ref{lemma: value for lambda_0} with the following corollary, which gives us an upper bound for the empirical process, which takes the value of \(\sgm\) into account.
 \begin{corollary}[Consistency of the LASSO] % Corollary 6.1
-    Assume $\sgmhat^2_j = 1$ for all \(j = 1, \ldots, p\). For some \(t > 0\), we define the regularization parameter as
+    Assume $\sgmhat^2_j = 1$ for all \(j = 1, \ldots, p\). For some \(t > 0\), let the regularization parameter be:
     \[
-        \lambda := 4 \sgmhat \sqrt{\frac{t^2 + 2 \log p}{n}}
+        \lambda = 4 \sgmhat \sqrt{\frac{t^2 + 2 \log p}{n}}
     \]
     where $\sgmhat$ is an estimator of $\sgm$. \\
     Then with probability at least $1 - \alpha$, where
@@ -157,10 +186,18 @@ We define \(\mathscr{T}\) as follows
     \end{align*}
     which concludes the proof.
 \end{proof}
-
+Now we want to go one step further and we need to introduce some supplementary notation. We write \(\bta_{j,S}\) for the vector \(\bta\), where we keep only the components which belong to \(S\) and set the other ones to 0. That is:
+\[
+    \bta_{j,S} := \bta_{j} \mathbf{1}_{j \in S}
+\]
+Naturally, since any given index either belongs to a set or to its complement, we have that
+\[
+    \bta = \bta_{j,S} + \bta_{j,S^C}
+\]
+We now have the necessary notation so we proceed with the lemma.
 \begin{lemma} % Lemma 6.3.
-    \label{eqn: lemma 6.3.}
-    We have on $\mathscr{T}$, with $\lambda \geq 2 \lambda_{0}$,
+    \label{lemma: lemma 6.3.}
+    We have on $\T$, with $\lambda \geq 2 \lambda_{0}$,
     \begin{equation*}
         2\frac{ \|\mathbf{X} (\btahat-\bta^{0} ) \|_{2}^{2}}{n} + \lambda \|\btahat_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}
     \end{equation*}
@@ -170,7 +207,7 @@ We define \(\mathscr{T}\) as follows
     \[
         \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda\|\bta^{0}\|_{1}
     \]
-    Now since we are on $\mathscr{T}$ and since $2 \lambda_0 \leq \lambda$
+    Now since we are on $\mathscr{T}$ and since we assumed that \( \lambda \geq 2 \lambda_0 \)
     \[
         \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq \lambda_0 \|\btahat-\bta^{0}\|_1 + \lambda\|\bta^{0}\|_{1}
     \]
@@ -199,26 +236,46 @@ We define \(\mathscr{T}\) as follows
         \implies & 2\frac{ \|\mathbf{X} (\btahat-\bta^{0} ) \|_{2}^{2}}{n} + \lambda \|\btahat_{S_{0}^{c}} \|_{1} \leq 3 \lambda \|\btahat_{S_{0}}-\bta_{S_{0}}^{0} \|_{1}
     \end{align*}
 \end{proof}
-
+We now introduce an important assumption that we will require in order to deduce several results in the future. Let us first define it, then we will discuss its importance.
 \begin{definition}[Compatibility condition]
     We say that the compatibility condition is met for the set $S_{0}$, if for some $\phi_{0}>0$, and for all $\bta$ satisfying $ \|\bta_{S_{0}^{c}} \|_{1} \leq 3 \|\bta_{S_{0}} \|_{1}$, it holds that
     \begin{equation}
         \left\| \bta_{S_{0}} \right\|_{1}^{2} \leq \left(\bta^{T} \Sgmhat \bta\right) \frac{s_{0}}{\phi_{0}^{2}}
     \end{equation}
 \end{definition}
-
+The compatibility condition gives us a permission to cross the bridge between the \(\ell_1\) world and the \(\ell_2\) world. That bridge is obtained thanks the the Cauchy-Scharz inequality, and it is:
+\[
+    \left\|\ \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right\|_{1} \leq \sqrt{s_{0}}\left\|\btahat_{S_{0}} - \bta_{S_{0}}^{0} \right\|_{2}
+\]
+Moreover we have that
+\begin{align*}
+    \frac{\left\|\X\left(\btahat - \bta^{0}\right)\right\|_{2}^{2}}{n} 
+    & = \frac{\left[ \X \left( \btahat - \bta^{0}\right) \right]^T \left[\X \left(\btahat - \bta^{0}\right) \right]}{n} \\
+    & = \left(\btahat - \bta^{0}\right)^{T} \frac{ \X^T \X }{n} \left(\btahat - \bta^{0}\right) \\
+    & = \left(\btahat - \bta^{0}\right)^{T} \Sgmhat \left(\btahat - \bta^{0}\right)
+\end{align*}
+And we hope that for some constant \(\phi_0 > 0\):
+\[
+    \left\| \btahat_{S_0} - \bta_{S_0}^{0} \right\|_{2}^{2} \leq \frac{\left(\btahat - \bta^{0}\right)^{T} \Sgmhat \left(\btahat - \bta^{0}\right)}{\phi_0^2}
+\]
+however, this is not the case for all \(\bta\). But lemma \ref{lemma: lemma 6.3.} tells us that
+\[
+    \left\|\hat{\beta}_{S_{0}^{c}}\right\|_{1} \leq 3\left\|\hat{\beta}_{S_{0}}-\beta_{S_{0}}^{0}\right\|_{1}
+\]
+as long as we are on \(\T\). \\
+We may now use the compatibility condition to get the following theorem.
 \begin{theorem} % Theorem 6.1.
     Suppose the compatibility condition holds for $S_{0}$. Then on $\mathscr{T}$, we have for $\lambda \geq 2 \lambda_{0}$,
-    $$
-        \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n}+\lambda\|\btahat-\bta^{0}\|_{1} \leq 4 \lambda^{2} \frac{s_{0}}{\phi_{0}^{2}}
-    $$
+    \[
+        \frac{\|\X(\btahat-\bta^{0})\|_{2}^{2}}{n}+\lambda\|\btahat-\bta^{0}\|_{1} \leq 4 \lambda^{2} \frac{s_{0}}{\phi_{0}^{2}}
+    \]
 \end{theorem}
 \begin{proof}
-    Using Lemma \ref{eqn: lemma 6.3.} we have that
+    Using Lemma \ref{lemma: lemma 6.3.} we have that
     \begin{align*}
          & \quad 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat-\bta^{0}\|_{1}                                                                                                    \\
          & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} + \btahat_{S_{0}^{c}} - \bta^{0}_{S_0} - \underbrace{\bta^{0}_{S_0^c}}_{=0} \|_{1}                            \\
-         & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} - \bta^{0}_{S_0} \|_{1} + \lambda \| \btahat_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{eqn: lemma 6.3.})} \\
+         & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} - \bta^{0}_{S_0} \|_{1} + \lambda \| \btahat_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{lemma: lemma 6.3.})} \\
          & \leq 4 \lambda \|\btahat_{S_{0}} - \bta_{S_{0}}^{0} \|_{1}                                                                                                                                      \\
          & = 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \Sgmhat \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                        \\
          & \leq \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                   \\
@@ -311,7 +368,7 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
     \end{align*}
 \end{proof}
 
-% Compare  equation \eqref{eqn: lemma 6.3.} and equation \eqref{eqn: new version of lemma 6.3.}. We have that 
+% Compare  equation \eqref{lemma: lemma 6.3.} and equation \eqref{eqn: new version of lemma 6.3.}. We have that 
 
 \begin{definition}[Compatibility condition for general sets]
     We say that the compatibility condition holds for the set $S$, if for some constant $\phi(S)>0,$ and for all $\bta,$ with $\left\|\bta_{S^{c}}\right\|_{1} \leq$ $3\left\|\bta_{S}\right\|_{1},$ one has
