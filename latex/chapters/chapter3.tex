@@ -1,18 +1,30 @@
 \chapter{Theory for LASSO in high dimensions}
 \label{chapter: LASSO}
-Part of this chapter follows \textit{Statistics for High-Dimensional Data} by Peter Bühlmann and Sara van de Geer.
+In chapter \ref{chapter: classical theory of linear regression}, we considered square or almost-square systems (\(n \approx p\)). In this chapter however, we work with underdetermined systems, which means that we have few observations but each with many components. In fact, this difference may even be substantial and we will introduce general methods to deal with such cases. Several linear regresion methods exist in order to work for underdetermined systems but we will introduce only one, namely LASSO. Our exploration will consist of two parts. In the first one, we will work with the heuristic assumption that the underlying true model is linear. In the second part, we will acknowledge that the underlying true model is not linear, but we will argue and show that it can be well-approximated by a linear model, accounting for the additional nonlinear part. \\
+LASSO (Least Absolute Shrinkage and Selection Operator) is a linear regression method which takes into account the \(\ell_1\)-norm of the estimator \(\bta\) as a penalization parameter. LASSO aims at minimizing the following quantity over \(\bta\):
+\[
+    \frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1}
+\]
+Because of the \(\ell_1\) term, the model is able to indentify and select the relevant parameters, while the other parameters can be set to zero. This makes LASSO shine, in comparison to other (non-penalized) linear regression techniques, when there is a great number of parameters. \\
+Some parts of this chapter follow \textit{Statistics for High-Dimensional Data} by Peter Bühlmann and Sara van de Geer.
 
-\section{Assuming the truth is linear}
-In this section, we assume that there exists some ``true value" that would make the parameter \(\bta\) fit the observations to the predictions perfectly. We call this ideal parameter vector \(\bta^0\). However, we work with an underdetermined system: there are more variables than equations, or in our context, there are more parameters than observations \((\ie p>n)\).
-
-We define $\btahat$ as follows
+In this section, we assume that there exists some underlying ``true value" for the parameter \(\bta\) that would make the model ideally fit the observations to the predictions. We call this parameter vector \(\bta^0\). We want to be as close as possible from such a parameter. \\
+One of the roadblocks that prevents us from finding \(\bta^0\) is that we do not know which of the \(\bta_j\) are non-zero. Therefore, one of our goals is to identify the so-called \textit{active set}, which is the set of non-zero components of \(\bta^0\). We write it \(S_0\) and we define it as follows:
+\[
+    S_0 := \left\{ 1 \leq j \leq p : \bta_j^0 \neq 0 \right\}
+\]
+Let us also introduce the number of non-zero parameters \(s_0\). We call \(s_0\) the sparsity index of \(\bta^0\) and it is defined as the cardinality of \(S_0\), that is \(s_0 := |S_0|\). \\
+We must account for the fact that we do not know \(S_0\). Using a regularization parameter fulfills that purpose as it ensures that the components of our estimator will remain ``small''. Thus, keeping the results from chapter \ref{chapter: classical theory of linear regression} in mind, we define $\btahat$ as follows:
 \begin{equation}
     \label{eqn: beta hat (LASSO)}
     \btahat:=\arg \min _{\bta}\left\{ \frac{\|\Y-\X \bta\|_{2}^{2}}{n}+\lambda\|\bta\|_{1} \right\}
 \end{equation}
 
+\section{Assuming the truth is linear}
+We will build several results from the following lemma, which we logically call the Basic Inequality.
 \begin{lemma}[Basic Inequality]
     \label{lemma: basic inequality}
+    The following holds:
     \[
         \frac{\| \X (\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat\|_{1} \leq 2 \frac{\varepsilon^{T} \X (\btahat-\bta^{0})}{n}+\lambda \| \bta^{0} \|_{1}
     \]
@@ -42,7 +54,7 @@ We define $\btahat$ as follows
     \end{align*}
     This completes the proof.
 \end{proof}
-We define \(\mathscr{T}\) as follows
+We define \(\mathscr{T}\) as follows:
 \[
     \mathscr{T} := \left\{ \max _{1 \leq j \leq p} 2 \frac{\left| \varepsilon^{T} \mathbf{X}^{(j)}\right|}{n} \leq \lambda_{0}\right\}
 \]
