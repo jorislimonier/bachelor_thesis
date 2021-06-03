@@ -381,7 +381,13 @@ We use the notation $\mathscr{S}$ for the collection of sets $S$ for which the c
     \]
     where $S_{\bta}:=\left\{j: \bta_{j} \neq 0\right\}$, $s_{\bta}:=\left|S_{\bta}\right|$ denotes the cardinality of $S_{\bta}$ and the factor 4 in the right hand side comes from choosing $\lambda \geq \lambda_0$.
 \end{definition}
-
+We define for simplicity
+\begin{align*}
+    S_* & := S_{\bta^*} \\
+    s_* & := |S_*| \\
+    \phi_* & := \phi(S_*) \\
+\end{align*}
+Now building up from the definition of the oracle, we continue with the main result of this section.
 \begin{theorem}
     Assume that \(\sgmhat_{j}^{2}=1\) for all \(j\) and that the compatibility condition holds for all \(S \in \mathscr{S}\), where \(\Sgmhat\) is normalized. For some \(t>0\), we let the regularization parameter be
     \[
@@ -397,13 +403,13 @@ We use the notation $\mathscr{S}$ for the collection of sets $S$ for which the c
     \]
 \end{theorem}
 \begin{proof}
-    We will distinguish between two cases: first, when \(\lambda\left\|\btahat_{S_{*}}-\bta_{S_{*}}^{*}\right\|_{1}\) is at least \(\frac{\left\|\X \bta^{*}-\f^{0}\right\|_{2}^{2}}{n}\), then, when it is smaller.
+    We will distinguish between two cases: first, when \(\lambda\left\|\btahat_{S_{*}}-\bta_{S_{*}}^{*}\right\|_{1}\) is at least \(\frac{\left\|\X \bta^{*}-\f^{0}\right\|_{2}^{2}}{n}\), then when it is smaller.
     \begin{enumerate}
-        \item On $\mathscr{T}$, whenever
+        \item On $\mathscr{T}$, consider the case when
               \[
                   \lambda\left\|\btahat_{S_{*}}-\bta_{S_{*}}^{*}\right\|_{1} \geq \frac{\left\|\X \bta^{*}-\f^{0}\right\|_{2}^{2}}{n}
               \]
-              we have
+              then we have
               \[
                 \frac{4\left\|\X \btahat-\f^{0}\right\|_{2}^{2}}{n}+3 \lambda\left\|\btahat_{S_{*}^{c}}\right\|_{1} \leq 9 \lambda\left\|\btahat_{S_{*}}-\bta_{S_{*}}^{*}\right\|_{1},
               \]
