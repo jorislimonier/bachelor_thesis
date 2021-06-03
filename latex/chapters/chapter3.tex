@@ -21,6 +21,7 @@ We must account for the fact that we do not know \(S_0\). Using a regularization
 \end{equation}
 
 \section{Assuming the truth is linear}
+\label{section: assuming truth is linear}
 We will build several results from the following lemma, which we logically call the Basic Inequality.
 \begin{lemma}[Basic Inequality]
     \label{lemma: basic inequality}
@@ -249,10 +250,10 @@ The compatibility condition gives us a permission to cross the bridge between th
 \]
 Moreover we have that
 \begin{align*}
-    \frac{\left\|\X\left(\btahat - \bta^{0}\right)\right\|_{2}^{2}}{n} 
-    & = \frac{\left[ \X \left( \btahat - \bta^{0}\right) \right]^T \left[\X \left(\btahat - \bta^{0}\right) \right]}{n} \\
-    & = \left(\btahat - \bta^{0}\right)^{T} \frac{ \X^T \X }{n} \left(\btahat - \bta^{0}\right) \\
-    & = \left(\btahat - \bta^{0}\right)^{T} \Sgmhat \left(\btahat - \bta^{0}\right)
+    \frac{\left\|\X\left(\btahat - \bta^{0}\right)\right\|_{2}^{2}}{n}
+     & = \frac{\left[ \X \left( \btahat - \bta^{0}\right) \right]^T \left[\X \left(\btahat - \bta^{0}\right) \right]}{n} \\
+     & = \left(\btahat - \bta^{0}\right)^{T} \frac{ \X^T \X }{n} \left(\btahat - \bta^{0}\right)                         \\
+     & = \left(\btahat - \bta^{0}\right)^{T} \Sgmhat \left(\btahat - \bta^{0}\right)
 \end{align*}
 And we hope that for some constant \(\phi_0 > 0\):
 \[
@@ -273,39 +274,37 @@ We may now use the compatibility condition to get the following theorem.
 \begin{proof}
     Using Lemma \ref{lemma: lemma 6.3.} we have that
     \begin{align*}
-         & \quad 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat-\bta^{0}\|_{1}                                                                                                    \\
-         & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} + \btahat_{S_{0}^{c}} - \bta^{0}_{S_0} - \underbrace{\bta^{0}_{S_0^c}}_{=0} \|_{1}                            \\
+         & \quad 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda\|\btahat-\bta^{0}\|_{1}                                                                                                      \\
+         & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} + \btahat_{S_{0}^{c}} - \bta^{0}_{S_0} - \underbrace{\bta^{0}_{S_0^c}}_{=0} \|_{1}                              \\
          & = 2 \frac{\|\mathbf{X}(\btahat-\bta^{0})\|_{2}^{2}}{n} + \lambda \| \btahat_{S_0} - \bta^{0}_{S_0} \|_{1} + \lambda \| \btahat_{S_{0}^{c}} \|_1 \quad \textit{(by lemma \ref{lemma: lemma 6.3.})} \\
-         & \leq 4 \lambda \|\btahat_{S_{0}} - \bta_{S_{0}}^{0} \|_{1}                                                                                                                                      \\
-         & = 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \Sgmhat \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                        \\
-         & \leq \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                   \\
-         & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                                                                                         \\
-         & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n}                                                                                               \\
+         & \leq 4 \lambda \|\btahat_{S_{0}} - \bta_{S_{0}}^{0} \|_{1}                                                                                                                                        \\
+         & = 4 \lambda \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \Sgmhat \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right) s_{0} / \phi_{0}^{2}}                                          \\
+         & \leq \sqrt{\left( \btahat_{S_{0}} - \bta_{S_{0}}^{0} \right)^{T} \X^T \X \left( \btahat_{S_{0}} - \bta_{S_{0}}^{0}  \right)} \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                     \\
+         & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|_2 \frac{4 \lambda \sqrt{s_{0}}}{\phi_{0} \sqrt{n}}                                                                                           \\
+         & \leq \| \X ( \btahat_{S_{0}} - \bta_{S_{0}}^{0} ) \|^2_2 + \frac{4 \lambda^2 s_{0}}{\phi^2_{0} n}                                                                                                 \\
     \end{align*}
     Where the last inequality follows from $4uv \leq u^2 + 4v^2$.
 \end{proof}
 
-
 \section{Linear approximation of the truth}
 
-Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\mathbf{f}^{0}$.
-
-
-\begin{lemma}[New version of the Basic Inequality]
-    $\forall \bta^* \in \R^p$ we have
+In this section, we take into account the fact that the expected value of \(\Y\) may not be 0. Several points run in a similar fashion to section \ref{section: assuming truth is linear} but carry extra terms, which account for that difference. \\
+From now on, we consider the expected value of \(\Y\) to be \(\mathbb{E} [\mathbf{Y}] :=\mathbf{f}^{0}\). The basic inequality still holds, but carries extra terms
+\begin{lemma}[Basic Inequality for non-zero expected value]
+    For all \(\bta^* \in \R^p\) we have
     \begin{equation}
         \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}
     \end{equation}
 \end{lemma}
 \begin{proof}
-    By definition of $\btahat$, we have that
-    $$
+    By definition of \(\btahat\), we have that
+    \[
         \forall \bta \quad \frac{\| \Y -\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta \|_{2}^{2}}{n}+\lambda \| \bta \|_{1}
-    $$
+    \]
     In particular for $\bta = \bta^*$ we have
-    $$
+    \[
         \forall \bta^* \quad \frac{\| \Y -\X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat \|_{1} \leq \frac{\|\Y-\X \bta^* \|_{2}^{2}}{n}+\lambda \| \bta^* \|_{1}
-    $$
+    \]
     Since $\Y = \mathbf{f}^0 + \eps$:
     \begin{align*}
                  & \frac{\|\Y  - \X \btahat \|_{2}^{2}}{n} + \lambda \| \btahat\|_{1} \leq \frac{\| \Y  - \X \bta^* \|_2^2}{n}+\lambda\|\bta^{*}\|_{1}                                                       \\
@@ -321,9 +320,9 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
         \frac{\|\X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + \lambda\| \btahat \|_{1} \leq \frac{2 \eps^T \X (\btahat - \bta^*)}{n} + \lambda \| \bta^*\|_{1} + \frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n} \\
     \end{align*}
 \end{proof}
-
-\begin{lemma}[New version of Lemma 6.3.]
-    We have on $\mathscr{T}$, with $\lambda \geq 4 \lambda_{0}$,
+We can also adapt lemma \ref{lemma: lemma 6.3.} for non-zero expected value.
+\begin{lemma}
+    We have on \(\mathscr{T}\), with \(\lambda \geq 4 \lambda_{0}\):
     \begin{equation}
         \label{eqn: new version of lemma 6.3.}
         \frac{4 \|\mathbf{X} \btahat-\mathbf{f}^0\|_{2}^{2}}{n} + 3 \lambda \| \btahat_{S^{c}_{*}} \|_{1} \leq 5 \lambda \| \btahat_{S_{*}} - \bta_{S_{*}}^{*} \|_{1} + \frac{4 \|\mathbf{X} \bta^{*} - \mathbf{f}^{0} \|_{2}^{2}}{n}
@@ -367,23 +366,19 @@ Now $\mathbf{Y} :=\mathbf{f}^{0} + \eps$, therefore $\mathbb{E} [\mathbf{Y}] :=\
         4 \frac{\| \X \btahat - \mathbf{f}^0 \|_{2}^{2}}{n} + 3 \lambda\|\btahat_{S_{*}^{c}} \|_{1} \leq 5 \lambda \| \btahat_{S_{*}}-\bta_{S_{*}}^{*} \|_{1} + 4\frac{\|\X \bta^* - \mathbf{f}^0\|_{2}^{2}}{n}           \\
     \end{align*}
 \end{proof}
-
-% Compare  equation \eqref{lemma: lemma 6.3.} and equation \eqref{eqn: new version of lemma 6.3.}. We have that 
-
+The compatibility condition in its form for non-zero expected value is given as follows.
 \begin{definition}[Compatibility condition for general sets]
     We say that the compatibility condition holds for the set $S$, if for some constant $\phi(S)>0,$ and for all $\bta,$ with $\left\|\bta_{S^{c}}\right\|_{1} \leq$ $3\left\|\bta_{S}\right\|_{1},$ one has
-    $$
+    \[
         \left\|\bta_{S}\right\|_{1}^{2} \leq\left(\bta^{T} \sgmhat \bta\right)\frac{|S|}{\phi^{2}(S)}
-    $$
+    \]
 \end{definition}
-
-We define $\mathscr{S}$ as the collection of sets $S$ for which the compatibility condition holds.
-
+We use the notation $\mathscr{S}$ for the collection of sets $S$ for which the compatibility condition holds. Then, let us define the oracle, which is the best possible value for the estimator \(\bta\).
 \begin{definition}[The oracle]
     We define the oracle $\bta^{*}$ as
-    $$
+    \[
         \bta^{*} = \arg \min_{\bta: S_{\bta} \in \mathscr{S}} \left\{ \frac{ \left\| \X \bta - \f^{0} \right\|_{2}^{2}}{n} + \frac{4 \lambda^{2} s_{\bta}}{\phi^{2}\left(S_{\bta}\right)}\right\}
-    $$
+    \]
     where $S_{\bta}:=\left\{j: \bta_{j} \neq 0\right\}$, $s_{\bta}:=\left|S_{\bta}\right|$ denotes the cardinality of $S_{\bta}$ and the factor 4 in the right hand side comes from choosing $\lambda \geq \lambda_0$.
 \end{definition}
 
