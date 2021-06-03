@@ -20,7 +20,7 @@ where \(\forall \; i = 1, \ldots, n\), we have \(X_i \in \mathscr{X} \subseteq \
     \end{equation}
     where \(\eps_1, \ldots, \eps_n\) are independent and identically distributed (i.i.d.). Moreover, \(\forall \, i = 1, \ldots, n, \) we have that \( \E [\eps_i] = 0\) and each \(\eps_i\) is independent of all of the \( X_j, \; j=1, \ldots, n \).
 \end{definition}
-Instead of considering each observation individually we can deal with all of them together by expressing the linear model with matrices. We use the following notation:
+Instead of considering each observation individually we can deal with all of them at once by expressing the linear model with matrices. We use the following notation:
 \begin{equation}
     \label{eqn: linear model (matrix)}
     \Y = \X \bta + \eps
@@ -28,7 +28,7 @@ Instead of considering each observation individually we can deal with all of the
 
 \begin{definition}
     \begin{enumerate}[label=(\alph*)]
-        \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$. $\X$ consists of ``stacking" the vectors relative to each observation inside of a matrix
+        \item $\X$ is called the \textbf{design matrix}. It has dimension $n \times p$. $\X$ consists of ``stacking" the vectors relative to each observation inside of a matrix.
               \[
                   X =
                   \begin{bmatrix}
@@ -67,6 +67,10 @@ We may rewrite the objective function as
      & = \Y^T \Y - \Y^T \X \bta - \bta^T \X^T \Y + \bta^T \X^T \X \bta \\
      & = \Y^T \Y - 2 \bta^T \X^T \Y + \bta^T \X^T \X \bta              \\
 \end{align*}
+where we use that \(\Y^T \X \bta \in \R\), therefore
+\[
+    \Y^T \X \bta = \left(\Y^T \X \bta\right)^T = \bta^T \X^T \Y
+\]
 The goal of the least squares method is to find the vector $\btahat$ minimizing the objective function \( S \). In other words, we want to find
 \[
     \btahat := \arg \min_{\bta} S(\bta)
@@ -83,8 +87,8 @@ where equation \eqref{eqn: least-squares normal equations} is called the least s
     \label{eqn: least squares estimator}
     \btahat = (\X^T \X)^{-1} \X^T \Y
 \end{equation}
-
-So far we found a way to compute the least square estimator \(\btahat\). Now we would like to take a look at a few of its properties, namely the expected value and the variance. \\
+Invertibility is a strong assumption that we will remove later, more specifically in chapter \ref{chapter: LASSO} when we will consider \(p \neq n\). \\
+So far we found a way to compute the least squares estimator \(\btahat\). Now we would like to take a look at a few of its properties, namely the expected value and the variance. \\
 First of all we show that \(\btahat\) is unbiased, that is $\E [\btahat] = \bta$.
 \begin{proposition}
     The least squares estimator \(\btahat\) is unbiased.
@@ -109,6 +113,7 @@ where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance 
 \[
     \var (U)_i = \cov (U, U)_{ii} \quad i = 1, \ldots, p
 \]
+We use this result in the following proposition.
 \begin{proposition}
     For \( \, i, j = 1, \ldots, p\), we have that:
     \begin{enumerate}[label=(\roman*)]
@@ -118,7 +123,6 @@ where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance 
 \end{proposition}
 \begin{proof}
     \begin{enumerate}[label=(\roman*)]
-
         \item One can note that\begin{align*}
                   \cov(\btahat, \btahat)
                    & = \var \left[ \underbrace{\left(\X^T \X\right)^{-1} \X^T}_{\text{constant}} \Y\right]                               \\
@@ -130,16 +134,16 @@ where \(\forall \, i, j = 1, \ldots, p, \; \cov (U, V)_{ij}\) is the covariance 
     \end{enumerate}
 \end{proof}
 
-We have now confirmed that \( \btahat \) is unbiased and we found an expression for its variance. Now we move onto estimating the quality of our prediction. The residuals can help us do that.
+We have now confirmed that \( \btahat \) is unbiased and we found an expression for its variance. Now we move onto estimating the quality of our prediction. We itnroduce the residuals to help us do that.
 \begin{definition}[Residuals]
     For a given set of observations \(\Y\), the \textbf{residuals} (also called \textbf{vector of residuals}) is the difference between the model's prediction and the observed value, that is
     \[
         X (\btahat - \bta) \in \R^n
     \]
 \end{definition}
-Building up from the residuals, we would like a measure that indicates how far our predictions are from the measurements. We will use the prediction error for that purpose.
+Building up from the residuals, we would like a measure that indicates how far our predictions are from the measurements, regardless of the sign of the difference. We define the prediction error, which will serve that purpose.
 \begin{definition}
-    For a given set of observations \(\Y\), the \textbf{prediction error} (also called \textbf{residual sum of squares}) is the squared \(\ell^2\)-norm of the difference between the prediction of our model and the observed value, that is
+    For a given set of observations \(\Y\), the \textbf{prediction error} (also called \textbf{residual sum of squares}) is the squared \(\ell_2\)-norm of the difference between the prediction of our model and the observed value which is part of the data, that is
     \[
         \prederr = \| \Y - \hat{\Y} \|_2^2 = \| \eps \|_2^2
     \]
@@ -154,7 +158,7 @@ The prediction error can be rewritten as follows:
      & = \Y^T \Y - 2 \btahat^T \X^T \Y + \btahat^T \underbrace{\X^T \X \btahat}_{= \X^T \Y} \\
      & = \Y^T \Y - \btahat^T \X^T \Y                                                        \\
 \end{align*}
-We will make further use of the prediction error in chapter \ref{chapter: LASSO}. For now, let us introduce another method to estimate parameters: the maximum likelihood estimation.
+We will make further use of the prediction error in chapter \ref{chapter: LASSO}. For now, let us introduce another linear regression method to estimate parameters: the maximum likelihood estimation.
 
 \section{Maximum likelihood estimation}
 \label{section: maximum likelihood}
@@ -178,14 +182,16 @@ which, using that \(\eps = \Y - \X \bta\), we may rewrite as a function of \(\Y\
 \[
     L\left(\Y, \X, \bta, \sgm^{2}\right) = \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )\right)
 \]
-We can apply the natural logarithm function on both sides of the above equation. Doing so cancels out the exponential and make our lives simpler for the rest of the analysis. Since the natural logarithm \(\ln: \R^{>0} \to \R\) is an increasing function, it will not disturb the search for the argument maximizing \(L\). We call the new function the log-likelihood function.
+We can apply the natural logarithm function on both sides of the above equation. Doing so cancels out the exponential and make our lives simpler for the rest of the analysis.
+% Since the natural logarithm \(\ln: \R^{>0} \to \R\) is an increasing function, it will not disturb the search for the argument maximizing \(L\). 
+We call the new function the log-likelihood function.
 \begin{align*}
       & \ln \left[ L\left(\Y, \X, \bta, \sgm^{2}\right) \right]                                                                           \\
     = & \ln \left[ \frac{1}{(2 \pi)^{n / 2} \sgm^{n}} \exp \left(-\frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )\right) \right] \\
     = & - \ln [ (2 \pi)^{n / 2} \sgm^{n} ] - \frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )                                     \\
     = & - \frac{n}{2} \ln(2 \pi) -n \ln(\sgm) - \frac{1}{2 \sgm^{2}} ( \Y - \X \bta )^T ( \Y - \X \bta )                                  \\
 \end{align*}
-Now, with a fixed \(\sgm\), the only term that can vary is \(( \Y - \X \bta )^T ( \Y - \X \bta )\). One can easily notice that we need to minimize this term in order to maximize the log-likelihood function. We will not repeat this argument since we already went through it in equation \eqref{eqn: least-squares normal equations}. We had thereafter obtained in equation \eqref{eqn: least squares estimator} that, given that \(\X^T \X\) is invertible, the result is
+Now, with a fixed \(\sgm\), the only term that can vary is \(( \Y - \X \bta )^T ( \Y - \X \bta )\). One can easily notice that we need to minimize this term in order to maximize the log-likelihood function. We will not repeat this argument since we already went through it in equation \eqref{eqn: least-squares normal equations}. We had thereafter obtained in equation \eqref{eqn: least squares estimator} that, assuming that \(\X^T \X\) is invertible, the result is
 \[
     \btahat = (\X^T \X)^{-1} \X^T \Y
 \]
